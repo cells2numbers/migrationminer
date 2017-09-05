@@ -1,4 +1,4 @@
 library(testthat)
-library(cytominer)
+library(neutrominer)
 
 test_check("neutrominer")
