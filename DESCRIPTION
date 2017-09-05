@@ -1,0 +1,29 @@
+Title: Package for creating and analysing migration profiles for single cell tracking / time lapse data.
+Package: neutrominer
+Type: Package
+Version: 0.1.0
+Authors@R: as.person(c( "Tim Becker <tim.becker.83@gmail.com> [aut, cre]"))
+Description: neutrominer is an R package for creating and analysing migration profiles for single cell tracking / time lapse data.  
+License: file LICENSE
+LazyData: TRUE
+Depends:
+  R (>= 3.1.0) 
+Imports:
+    dplyr (>= 0.5.0),
+    foreach (>= 1.4.3),
+    lazyeval (>= 0.2.0),
+    magrittr (>= 1.5),
+    purrr (>= 0.2.2),
+    tibble (>= 1.2),
+    cytominer (>= 0.0.1)
+Suggests:
+    knitr (>= 1.14),
+    readr (>= 1.0.0),
+    stringr (>= 1.1.0),
+    rmarkdown (>= 1.0),
+    RSQLite (>= 1.0.0),
+    testthat (>= 1.0.2),
+    tidyr (>= 0.6.0),
+    covr
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1
