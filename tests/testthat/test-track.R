@@ -211,7 +211,7 @@ test_that("`track` collapse single cell data to track objects", {
 
   expect_equal(
     track_data %>%
-      neutrominer::chemotactic_index(.),
+      neutrominer::chemotaxis_index(.),
     track_ci
   )
 

@@ -20,7 +20,7 @@ track <- function(population, strata) {
 
   features <- list(
     angle(tracks),
-    chemotactic_index(tracks),
+    chemotaxis_index(tracks),
     directionality(tracks),
     distance(tracks),
     directional_persistence(tracks),
@@ -271,10 +271,10 @@ directional_persistence <- function(tracks) {
     dplyr::select(-Track_Directionality)
 }
 
-#' Calculate the mean chemotactic index of a track object.
+#' Calculate the mean chemotaxis index of a track object.
 #'
 #' @param tracks data frame with track objects
-#' @return chemotactic_index
+#' @return chemotaxis_index
 #' @examples
 #' data <- tibble::data_frame(
 #'   Metadata_timePoint = c(1:5),
@@ -283,11 +283,11 @@ directional_persistence <- function(tracks) {
 #'   TrackObjects_Label = c(rep(1, 5))
 #' )
 #'  tracks <- neutrominer::displace(data,'TrackObjects_Label')
-#'  chemotactic_index <-  neutrominer::chemotactic_index(tracks)
+#'  chemotaxis_index <-  neutrominer::chemotaxis_index(tracks)
 #' @importFrom magrittr %>%
 #' @export
-chemotactic_index <- function(tracks) {
-  chemotactic_index <- tracks %>%
+chemotaxis_index <- function(tracks) {
+  chemotaxis_index <- tracks %>%
     angle() %>%
     dplyr::mutate(Track_CI = -cos(Track_Angle) ) %>%
     dplyr::select(-Track_Angle)

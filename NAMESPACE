@@ -2,7 +2,7 @@
 
 export(angle)
 export(assess)
-export(chemotactic_index)
+export(chemotaxis_index)
 export(directional_persistence)
 export(directionality)
 export(displace)
