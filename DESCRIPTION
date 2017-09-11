@@ -1,9 +1,15 @@
-Title: Package for creating and analysing migration profiles for single cell tracking / time lapse data.
+Title: Package for Creating and Analysing Migration Profiles for Single Cell Tracking / Time Lapse Data
 Package: neutrominer
 Type: Package
 Version: 0.1.0
 Authors@R: as.person(c( "Tim Becker <tim.becker.83@gmail.com> [aut, cre]"))
-Description: neutrominer is an R package for creating and analysing migration profiles for single cell tracking / time lapse data.  
+Description: Trajectory data of in vitro cell tracking experiments is difficult
+    to analyze in an automated and standardized way. To analyse, visualize and 
+    aggregate these data sets, neutrominer implements different methods to 
+    characterize single (cellular) trajectories including speed, directionality, 
+    forward migration index or the chemotactic index. Different methods are 
+    proved to assess the tracking quality including 2D / 3D visualizations and 
+    automated. 
 License: file LICENSE
 LazyData: TRUE
 Depends:
@@ -25,4 +31,6 @@ Suggests:
     tidyr (>= 0.6.0),
     covr
 VignetteBuilder: knitr
+URL: https://github.com/cells2numbers/neutrominer
+BugReports: https://github.com/cells2numbers/neutrominer/issues
 RoxygenNote: 6.0.1
