@@ -357,7 +357,7 @@ valid_observation_time <- function(tracks, min_path_length) {
 }
 
 
-#' Identify valid tracks. Valid tracks are defined as tracks with a life time longer then a predifined value.
+#' Identify valid tracks. Valid tracks are defined as tracks with a life time longer then a predefined value.
 #'
 #' @param tracks data frame with track objects
 #' @param min_path_length minimum length of a valid track

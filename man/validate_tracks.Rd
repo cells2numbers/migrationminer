@@ -2,7 +2,7 @@
 % Please edit documentation in R/track.R
 \name{validate_tracks}
 \alias{validate_tracks}
-\title{Identify valid tracks. Valid tracks are defined as tracks with a life time longer then a predifined value.}
+\title{Identify valid tracks. Valid tracks are defined as tracks with a life time longer then a predefined value.}
 \usage{
 validate_tracks(tracks, min_path_length)
 }
@@ -15,7 +15,7 @@ validate_tracks(tracks, min_path_length)
 valid_observation_time
 }
 \description{
-Identify valid tracks. Valid tracks are defined as tracks with a life time longer then a predifined value.
+Identify valid tracks. Valid tracks are defined as tracks with a life time longer then a predefined value.
 }
 \examples{
  data <- tibble::data_frame(
