@@ -7,7 +7,7 @@ Description: Trajectory data of in vitro cell tracking experiments is difficult
     to analyze in an automated and standardized way. To analyze, visualize and 
     aggregate these data sets, neutrominer implements different methods to 
     characterize single (cellular) trajectories including speed, directionality, 
-    forward migration index or the chemotactic index. Different methods are 
+    forward migration index or the chemotaxis index. Different methods are 
     provided to assess the tracking quality including 2D / 3D visualizations and 
     automated. 
 License: file LICENSE
