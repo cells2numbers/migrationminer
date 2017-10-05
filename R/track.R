@@ -242,7 +242,7 @@ directionality <- function(tracks) {
 #'
 #' @importFrom magrittr %>%
 #' @export
-mean_squared_displacement <- function(tracks,tau) {
+mean_squared_displacement <- function(tracks,tau = 10) {
   tracks %>%
     dplyr::summarize(Track_MSD = (Location_Center_X[tau] - Location_Center_X[1])^2 +
         (Location_Center_Y[tau] - Location_Center_Y[1])^2)
@@ -346,7 +346,7 @@ sector_analysis <- function(tracks) {
 #'  vot <-   neutrominer::valid_observation_time(tracks, min_path_length)
 #' @importFrom magrittr %>%
 #' @export
-valid_observation_time <- function(tracks, min_path_length) {
+valid_observation_time <- function(tracks, min_path_length = 19) {
   valid_observation_time <- merge(tracks %>%
       dplyr::filter(Track_Length > min_path_length) %>%
       dplyr::summarise(sum_track_valid = sum(Track_Length)) ,
@@ -375,7 +375,7 @@ valid_observation_time <- function(tracks, min_path_length) {
 #'  validate_tracks <-   neutrominer::validate_tracks(tracks, min_path_length)
 #' @importFrom magrittr %>%
 #' @export
-validate_tracks <- function(tracks, min_path_length){
+validate_tracks <- function(tracks, min_path_length = 19){
   tracks %>%
     dplyr::mutate(Track_Valid = as.numeric(Track_Length > min_path_length)) %>%
     dplyr::summarize(
@@ -407,7 +407,7 @@ validate_tracks <- function(tracks, min_path_length){
 #'  trackQuality <- neutrominer::assess(tracks,min_path_length,strata)
 #' @importFrom magrittr %>%
 #' @export
-assess <- function(tracks, min_path_length, strata) {
+assess <- function(tracks, min_path_length = 19, strata) {
   track_info <- list(valid_observation_time(tracks, min_path_length),
     validate_tracks(tracks,min_path_length))
   return(Reduce(function(...) merge(..., all = TRUE, by_ = strata), track_info))
