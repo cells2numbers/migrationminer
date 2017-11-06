@@ -44,4 +44,4 @@ Installing neutrominer
 Reloading installed neutrominer
 ```
 
-If this does not work for you or you find any issue, please file an issue! 
+If this does not work for you or you find any bugs, please file an issue! 
