@@ -4,6 +4,8 @@
 # neutrominer
 Neutrominer is a R package to analyse and profile in vitro cell tracking and migration data. It is belongs to the [cytominer-verse](https://github.com/cytomining/) used for morphological profiling and allows to create temporal or dynamic profiles. 
 
+It works well together with CellProiler and the CellProfiler tracking module also parsing other formats is easily possible.
+
 # Installation 
 Neutrominer is not yet available from CRAN but you can install directly from github. First, you need to install the devtools package. You can do this from CRAN. Invoke R and then type
 
