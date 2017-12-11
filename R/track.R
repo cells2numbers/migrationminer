@@ -1,19 +1,19 @@
-#" Compute track statistics
-#"
-#" @param population, single cell data
-#" @param strata, column name storing the track label
-#" @return track
-#" @importFrom magrittr %>%
-#" @examples
-#"  data <- tibble::data_frame(
-#"    Metadata_timePoint = c(1:5),
-#"    Location_Center_X = c(1, 2, 3, 4, 5),
-#"    Location_Center_Y = c(1, 1, 1, 1, 1),
-#"    TrackObjects_Label = c(rep(1, 5))
-#"  )
-#"  data <- dplyr::group_by_(data,"TrackObjects_Label")
-#"  tracks <- neutrominer::track(data,"TrackObjects_Label")
-#" @export
+#' Compute track statistics
+#'
+#' @param population, single cell data
+#' @param strata, column name storing the track label
+#' @return track
+#' @importFrom magrittr %>%
+#' @examples
+#'  data <- tibble::data_frame(
+#'    Metadata_timePoint = c(1:5),
+#'    Location_Center_X = c(1, 2, 3, 4, 5),
+#'    Location_Center_Y = c(1, 1, 1, 1, 1),
+#'    TrackObjects_Label = c(rep(1, 5))
+#'  )
+#'  data <- dplyr::group_by_(data,"TrackObjects_Label")
+#'  tracks <- neutrominer::track(data,"TrackObjects_Label")
+#' @export
 track <- function(population, strata) {
   # process `population`, which is the data you get from CellProfiler
   tracks <- displace(population, strata)
@@ -33,23 +33,23 @@ track <- function(population, strata) {
   return(Reduce(function(...) merge(..., all = TRUE, by = strata), features))
 }
 
-#" Add spatial displacement per frame for each track object
-#"
-#" @param population, data frame storing single cell data
-#" @param strata, column name storing the track label
-#" @return displacement
-#" @examples
-#"  data <- tibble::data_frame(
-#"    Metadata_timePoint = c(1:5),
-#"    Location_Center_X = c(1, 2, 3, 4, 5),
-#"    Location_Center_Y = c(1, 1, 1, 1, 1),
-#"    TrackObjects_Label = c(rep(1, 5))
-#"  )
-#"  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#" @importFrom magrittr %>%
-#" @importFrom magrittr %<>%
-#" @export
-#"
+#' Add spatial displacement per frame for each track object
+#'
+#' @param population, data frame storing single cell data
+#' @param strata, column name storing the track label
+#' @return displacement
+#' @examples
+#'  data <- tibble::data_frame(
+#'    Metadata_timePoint = c(1:5),
+#'    Location_Center_X = c(1, 2, 3, 4, 5),
+#'    Location_Center_Y = c(1, 1, 1, 1, 1),
+#'    TrackObjects_Label = c(rep(1, 5))
+#'  )
+#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
+#' @importFrom magrittr %>%
+#' @importFrom magrittr %<>%
+#' @export
+#'
 
 
 displace <- function(population, strata) {
@@ -79,21 +79,21 @@ displace <- function(population, strata) {
     )
 }
 
-#" Add spatial displacement per frame for each track object
-#"
-#" @param tracks data frame with single cell data
-#" @return displacement
-#" @examples
-#"  data <- tibble::data_frame(
-#"    Metadata_timePoint = c(1:5),
-#"    Location_Center_X = c(1, 2, 3, 4, 5),
-#"    Location_Center_Y = c(1, 1, 1, 1, 1),
-#"    TrackObjects_Label = c(rep(1, 5))
-#"  )
-#"  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#"  speed <- neutrominer::speed(tracks)
-#" @importFrom magrittr %>%
-#" @export
+#' Add spatial displacement per frame for each track object
+#'
+#' @param tracks data frame with single cell data
+#' @return displacement
+#' @examples
+#'  data <- tibble::data_frame(
+#'    Metadata_timePoint = c(1:5),
+#'    Location_Center_X = c(1, 2, 3, 4, 5),
+#'    Location_Center_Y = c(1, 1, 1, 1, 1),
+#'    TrackObjects_Label = c(rep(1, 5))
+#'  )
+#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
+#'  speed <- neutrominer::speed(tracks)
+#' @importFrom magrittr %>%
+#' @export
 speed <- function(tracks) {
   tracks %>%
     dplyr::summarize(Track_Length = n(),
@@ -106,23 +106,23 @@ speed <- function(tracks) {
 
 }
 
-#" Compute the forward migration index of a tracked object
-#"
-#" @param tracks data frame with track objects
-#" @return forward migration index
-#" @examples
-#"  data <- tibble::data_frame(
-#"    Metadata_timePoint = c(1:5),
-#"    Location_Center_X = c(1, 2, 3, 4, 5),
-#"    Location_Center_Y = c(1, 1, 1, 1, 1),
-#"    TrackObjects_Label = c(rep(1, 5))
-#"  )
-#"  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#"  forward_migration_index <- neutrominer::forward_migration_index(tracks)
-#"
-#" @importFrom magrittr %>%
-#" @importFrom utils tail
-#" @export
+#' Compute the forward migration index of a tracked object
+#'
+#' @param tracks data frame with track objects
+#' @return forward migration index
+#' @examples
+#'  data <- tibble::data_frame(
+#'    Metadata_timePoint = c(1:5),
+#'    Location_Center_X = c(1, 2, 3, 4, 5),
+#'    Location_Center_Y = c(1, 1, 1, 1, 1),
+#'    TrackObjects_Label = c(rep(1, 5))
+#'  )
+#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
+#'  forward_migration_index <- neutrominer::forward_migration_index(tracks)
+#'
+#' @importFrom magrittr %>%
+#' @importFrom utils tail
+#' @export
 forward_migration_index <- function(tracks) {
   s <- tracks %>%
     dplyr::summarize(
@@ -143,22 +143,22 @@ forward_migration_index <- function(tracks) {
       )
 }
 
-#" Calculate lifetime of a track object.
-#"
-#" @param tracks data frame with track objects
-#" @return Calculate life time of each track object
-#" @examples
-#"  data <- tibble::data_frame(
-#"    Metadata_timePoint = c(1:5),
-#"    Location_Center_X = c(1, 2, 3, 4, 5),
-#"    Location_Center_Y = c(1, 1, 1, 1, 1),
-#"    TrackObjects_Label = c(rep(1, 5))
-#"  )
-#"  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#"  lifetime <-  neutrominer::lifetime(tracks)
-#"
-#" @importFrom magrittr %>%
-#" @export
+#' Calculate lifetime of a track object.
+#'
+#' @param tracks data frame with track objects
+#' @return Calculate life time of each track object
+#' @examples
+#'  data <- tibble::data_frame(
+#'    Metadata_timePoint = c(1:5),
+#'    Location_Center_X = c(1, 2, 3, 4, 5),
+#'    Location_Center_Y = c(1, 1, 1, 1, 1),
+#'    TrackObjects_Label = c(rep(1, 5))
+#'  )
+#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
+#'  lifetime <-  neutrominer::lifetime(tracks)
+#'
+#' @importFrom magrittr %>%
+#' @export
 lifetime  <- function(tracks) {
   tracks %>%
     dplyr::summarize(
@@ -169,23 +169,23 @@ lifetime  <- function(tracks) {
         length(unique(Metadata_timePoint)) == length(Metadata_timePoint) )
 }
 
-#" Calculate angle of a track object.
-#"
-#" @param tracks data frame with track objects
-#" @return The angle of each track
-#" @examples
-#"  data <- tibble::data_frame(
-#"    Metadata_timePoint = c(1:5),
-#"    Location_Center_X = c(1, 2, 3, 4, 5),
-#"    Location_Center_Y = c(1, 1, 1, 1, 1),
-#"    TrackObjects_Label = c(rep(1, 5))
-#"  )
-#"  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#"  angle <-  neutrominer::angle(tracks)
-#"
-#" @importFrom magrittr %>%
-#" @importFrom utils tail
-#" @export
+#' Calculate angle of a track object.
+#'
+#' @param tracks data frame with track objects
+#' @return The angle of each track
+#' @examples
+#'  data <- tibble::data_frame(
+#'    Metadata_timePoint = c(1:5),
+#'    Location_Center_X = c(1, 2, 3, 4, 5),
+#'    Location_Center_Y = c(1, 1, 1, 1, 1),
+#'    TrackObjects_Label = c(rep(1, 5))
+#'  )
+#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
+#'  angle <-  neutrominer::angle(tracks)
+#'
+#' @importFrom magrittr %>%
+#' @importFrom utils tail
+#' @export
 angle <- function(tracks) {
   tracks %>%
     dplyr::summarize(
@@ -195,23 +195,23 @@ angle <- function(tracks) {
       )
 }
 
-#" Calculate distance traveled and the integrated distance traveled of a track object.
-#"
-#" @param tracks data frame with track objects
-#" @return distance traveled
-#" @examples
-#"  data <- tibble::data_frame(
-#"    Metadata_timePoint = c(1:5),
-#"    Location_Center_X = c(1, 2, 3, 4, 5),
-#"    Location_Center_Y = c(1, 1, 1, 1, 1),
-#"    TrackObjects_Label = c(rep(1, 5))
-#"  )
-#"  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#"  distance <-  neutrominer::distance(tracks)
-#"
-#" @importFrom magrittr %>%
-#" @importFrom utils tail
-#" @export
+#' Calculate distance traveled and the integrated distance traveled of a track object.
+#'
+#' @param tracks data frame with track objects
+#' @return distance traveled
+#' @examples
+#'  data <- tibble::data_frame(
+#'    Metadata_timePoint = c(1:5),
+#'    Location_Center_X = c(1, 2, 3, 4, 5),
+#'    Location_Center_Y = c(1, 1, 1, 1, 1),
+#'    TrackObjects_Label = c(rep(1, 5))
+#'  )
+#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
+#'  distance <-  neutrominer::distance(tracks)
+#'
+#' @importFrom magrittr %>%
+#' @importFrom utils tail
+#' @export
 distance <- function(tracks) {
   tracks %>%
     dplyr::summarize(
@@ -222,23 +222,23 @@ distance <- function(tracks) {
               (tail(Location_Center_X, n = 1) - Location_Center_X[1] ) ^ 2 ))
 }
 
-#" Calculate the directionality of a track object.
-#"
-#" @param tracks data frame with track objects
-#"
-#" @return directionality
-#" @examples
-#"  data <- tibble::data_frame(
-#"    Metadata_timePoint = c(1:5),
-#"    Location_Center_X = c(1, 2, 3, 4, 5),
-#"    Location_Center_Y = c(1, 1, 1, 1, 1),
-#"    TrackObjects_Label = c(rep(1, 5))
-#"  )
-#"  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#"  directionality <-  neutrominer::directionality(tracks)
-#"
-#" @importFrom magrittr %>%
-#" @export
+#' Calculate the directionality of a track object.
+#'
+#' @param tracks data frame with track objects
+#'
+#' @return directionality
+#' @examples
+#'  data <- tibble::data_frame(
+#'    Metadata_timePoint = c(1:5),
+#'    Location_Center_X = c(1, 2, 3, 4, 5),
+#'    Location_Center_Y = c(1, 1, 1, 1, 1),
+#'    TrackObjects_Label = c(rep(1, 5))
+#'  )
+#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
+#'  directionality <-  neutrominer::directionality(tracks)
+#'
+#' @importFrom magrittr %>%
+#' @export
 directionality <- function(tracks) {
   tracks %>%
     distance() %>%
@@ -251,24 +251,24 @@ directionality <- function(tracks) {
       )
 }
 
-#" Calculate the mean squared displacement of a track object.
-#"
-#" @param tracks data frame with track objects
-#" @param tau delta t
-#" @return mean_squared_displacement
-#" @examples
-#"  data <- tibble::data_frame(
-#"    Metadata_timePoint = c(1:5),
-#"    Location_Center_X = c(1, 2, 3, 4, 5),
-#"    Location_Center_Y = c(1, 1, 1, 1, 1),
-#"    TrackObjects_Label = c(rep(1, 5))
-#"  )
-#"  tau <- 2
-#"  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#"  mean_squared_displacement <-  neutrominer::mean_squared_displacement(tracks,tau)
-#"
-#" @importFrom magrittr %>%
-#" @export
+#' Calculate the mean squared displacement of a track object.
+#'
+#' @param tracks data frame with track objects
+#' @param tau delta t
+#' @return mean_squared_displacement
+#' @examples
+#'  data <- tibble::data_frame(
+#'    Metadata_timePoint = c(1:5),
+#'    Location_Center_X = c(1, 2, 3, 4, 5),
+#'    Location_Center_Y = c(1, 1, 1, 1, 1),
+#'    TrackObjects_Label = c(rep(1, 5))
+#'  )
+#'  tau <- 2
+#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
+#'  mean_squared_displacement <-  neutrominer::mean_squared_displacement(tracks,tau)
+#'
+#' @importFrom magrittr %>%
+#' @export
 mean_squared_displacement <- function(tracks, tau = 10) {
   tracks %>%
     dplyr::summarize(Track_MSD =
@@ -276,22 +276,22 @@ mean_squared_displacement <- function(tracks, tau = 10) {
         (Location_Center_Y[tau] - Location_Center_Y[1]) ^ 2)
 }
 
-#" Calculate the mean directional_persistence of a track object.
-#"
-#" @param tracks data frame with track objects
-#" @return directional persistence
-#" @examples
-#"  data <- tibble::data_frame(
-#"    Metadata_timePoint = c(1:5),
-#"    Location_Center_X = c(1, 2, 3, 4, 5),
-#"    Location_Center_Y = c(1, 1, 1, 1, 1),
-#"    TrackObjects_Label = c(rep(1, 5))
-#"  )
-#"  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#"  directional_persistence <-  neutrominer::directional_persistence(tracks)
-#"
-#" @importFrom magrittr %>%
-#" @export
+#' Calculate the mean directional_persistence of a track object.
+#'
+#' @param tracks data frame with track objects
+#' @return directional persistence
+#' @examples
+#'  data <- tibble::data_frame(
+#'    Metadata_timePoint = c(1:5),
+#'    Location_Center_X = c(1, 2, 3, 4, 5),
+#'    Location_Center_Y = c(1, 1, 1, 1, 1),
+#'    TrackObjects_Label = c(rep(1, 5))
+#'  )
+#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
+#'  directional_persistence <-  neutrominer::directional_persistence(tracks)
+#'
+#' @importFrom magrittr %>%
+#' @export
 directional_persistence <- function(tracks) {
   directional_persistence <- tracks %>%
     directionality %>%
@@ -299,21 +299,21 @@ directional_persistence <- function(tracks) {
     dplyr::select(-Track_Directionality)
 }
 
-#" Calculate the mean chemotaxis index of a track object.
-#"
-#" @param tracks data frame with track objects
-#" @return chemotaxis_index
-#" @examples
-#" data <- tibble::data_frame(
-#"   Metadata_timePoint = c(1:5),
-#"   Location_Center_X = c(1, 2, 3, 4, 5),
-#"   Location_Center_Y = c(1, 1, 1, 1, 1),
-#"   TrackObjects_Label = c(rep(1, 5))
-#" )
-#"  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#"  chemotaxis_index <-  neutrominer::chemotaxis_index(tracks)
-#" @importFrom magrittr %>%
-#" @export
+#' Calculate the mean chemotaxis index of a track object.
+#'
+#' @param tracks data frame with track objects
+#' @return chemotaxis_index
+#' @examples
+#' data <- tibble::data_frame(
+#'   Metadata_timePoint = c(1:5),
+#'   Location_Center_X = c(1, 2, 3, 4, 5),
+#'   Location_Center_Y = c(1, 1, 1, 1, 1),
+#'   TrackObjects_Label = c(rep(1, 5))
+#' )
+#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
+#'  chemotaxis_index <-  neutrominer::chemotaxis_index(tracks)
+#' @importFrom magrittr %>%
+#' @export
 chemotaxis_index <- function(tracks) {
   chemotaxis_index <- tracks %>%
     angle() %>%
@@ -326,22 +326,22 @@ chemotaxis_index <- function(tracks) {
 # 1   \ /   2
 #     / \
 #   /  4  \
-#" perform sector analysis and label each track according to its direction of movement.
+#' perform sector analysis and label each track according to its direction of movement.
 #
-#" @param tracks data frame with track objects
-#" @return sector
-#" @examples
-#"  data <- tibble::data_frame(
-#"    Metadata_timePoint = c(1:5),
-#"    Location_Center_X = c(1, 2, 3, 4, 5),
-#"    Location_Center_Y = c(1, 1, 1, 1, 1),
-#"    TrackObjects_Label = c(rep(1, 5))
-#"  )
-#"  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#"  sector_analysis <-  neutrominer::sector_analysis(tracks)
-#"
-#" @importFrom magrittr %>%
-#" @export
+#' @param tracks data frame with track objects
+#' @return sector
+#' @examples
+#'  data <- tibble::data_frame(
+#'    Metadata_timePoint = c(1:5),
+#'    Location_Center_X = c(1, 2, 3, 4, 5),
+#'    Location_Center_Y = c(1, 1, 1, 1, 1),
+#'    TrackObjects_Label = c(rep(1, 5))
+#'  )
+#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
+#'  sector_analysis <-  neutrominer::sector_analysis(tracks)
+#'
+#' @importFrom magrittr %>%
+#' @export
 sector_analysis <- function(tracks) {
   sector_analysis <- tracks %>%
     angle() %>%
@@ -369,25 +369,25 @@ sector_analysis <- function(tracks) {
 }
 
 
-#" calculate valid observation time as sum of the length of all
-#" valid tracks divided by the sum of the length of all tracks
-#"
-#" @param tracks data frame with track objects
-#" @param min_path_length minimum length of a valid track
-#" @return valid_observation_time
-#" @examples
-#"  data <- tibble::data_frame(
-#"    Metadata_timePoint = c(1:5),
-#"    Location_Center_X = c(1, 2, 3, 4, 5),
-#"    Location_Center_Y = c(1, 1, 1, 1, 1),
-#"    TrackObjects_Label = c(rep(1, 5))
-#"  )
-#"  data <- dplyr::group_by_(data, "TrackObjects_Label")
-#"  tracks <- neutrominer::track(data, "TrackObjects_Label")
-#"  min_path_length <- 5
-#"  vot <-   neutrominer::valid_observation_time(tracks, min_path_length)
-#" @importFrom magrittr %>%
-#" @export
+#' calculate valid observation time as sum of the length of all
+#' valid tracks divided by the sum of the length of all tracks
+#'
+#' @param tracks data frame with track objects
+#' @param min_path_length minimum length of a valid track
+#' @return valid_observation_time
+#' @examples
+#'  data <- tibble::data_frame(
+#'    Metadata_timePoint = c(1:5),
+#'    Location_Center_X = c(1, 2, 3, 4, 5),
+#'    Location_Center_Y = c(1, 1, 1, 1, 1),
+#'    TrackObjects_Label = c(rep(1, 5))
+#'  )
+#'  data <- dplyr::group_by_(data, "TrackObjects_Label")
+#'  tracks <- neutrominer::track(data, "TrackObjects_Label")
+#'  min_path_length <- 5
+#'  vot <-   neutrominer::valid_observation_time(tracks, min_path_length)
+#' @importFrom magrittr %>%
+#' @export
 valid_observation_time <- function(tracks, min_path_length = 19) {
   valid_observation_time <- merge(tracks %>%
       dplyr::filter(Track_Length > min_path_length) %>%
@@ -399,24 +399,24 @@ valid_observation_time <- function(tracks, min_path_length = 19) {
 }
 
 
-#" Identify valid tracks. Valid tracks are defined as tracks with a life time longer then a predefined value.
-#"
-#" @param tracks data frame with track objects
-#" @param min_path_length minimum length of a valid track
-#" @return valid_observation_time
-#" @examples
-#"  data <- tibble::data_frame(
-#"    Metadata_timePoint = c(1:5),
-#"    Location_Center_X = c(1, 2, 3, 4, 5),
-#"    Location_Center_Y = c(1, 1, 1, 1, 1),
-#"    TrackObjects_Label = c(rep(1, 5))
-#"  )
-#"  data <- dplyr::group_by_(data,"TrackObjects_Label")
-#"  tracks <- neutrominer::track(data,"TrackObjects_Label")
-#"  min_path_length <- 5
-#"  validate_tracks <-   neutrominer::validate_tracks(tracks, min_path_length)
-#" @importFrom magrittr %>%
-#" @export
+#' Identify valid tracks. Valid tracks are defined as tracks with a life time longer then a predefined value.
+#'
+#' @param tracks data frame with track objects
+#' @param min_path_length minimum length of a valid track
+#' @return valid_observation_time
+#' @examples
+#'  data <- tibble::data_frame(
+#'    Metadata_timePoint = c(1:5),
+#'    Location_Center_X = c(1, 2, 3, 4, 5),
+#'    Location_Center_Y = c(1, 1, 1, 1, 1),
+#'    TrackObjects_Label = c(rep(1, 5))
+#'  )
+#'  data <- dplyr::group_by_(data,"TrackObjects_Label")
+#'  tracks <- neutrominer::track(data,"TrackObjects_Label")
+#'  min_path_length <- 5
+#'  validate_tracks <-   neutrominer::validate_tracks(tracks, min_path_length)
+#' @importFrom magrittr %>%
+#' @export
 validate_tracks <- function(tracks, min_path_length = 19){
   tracks %>%
     dplyr::mutate(Track_Valid = as.numeric(Track_Length > min_path_length)) %>%
@@ -430,25 +430,25 @@ validate_tracks <- function(tracks, min_path_length = 19){
 }
 
 
-#" Assess track quality.
-#" @param tracks data frame with track objects
-#" @param min_path_length minimum length of a valid track
-#" @param strata column name of track index column
-#" @return valid_observation_time
-#" @examples
-#"  data <- tibble::data_frame(
-#"    Metadata_timePoint = c(1:5),
-#"    Location_Center_X = c(1, 2, 3, 4, 5),
-#"    Location_Center_Y = c(1, 1, 1, 1, 1),
-#"    TrackObjects_Label = c(rep(1, 5))
-#"  )
-#"  strata <- "TrackObjects_Label"
-#"  data <- dplyr::group_by_(data, strata)
-#"  tracks <- neutrominer::track(data, strata)
-#"  min_path_length <- 5
-#"  trackQuality <- neutrominer::assess(tracks,min_path_length,strata)
-#" @importFrom magrittr %>%
-#" @export
+#' Assess track quality.
+#' @param tracks data frame with track objects
+#' @param min_path_length minimum length of a valid track
+#' @param strata column name of track index column
+#' @return valid_observation_time
+#' @examples
+#'  data <- tibble::data_frame(
+#'    Metadata_timePoint = c(1:5),
+#'    Location_Center_X = c(1, 2, 3, 4, 5),
+#'    Location_Center_Y = c(1, 1, 1, 1, 1),
+#'    TrackObjects_Label = c(rep(1, 5))
+#'  )
+#'  strata <- "TrackObjects_Label"
+#'  data <- dplyr::group_by_(data, strata)
+#'  tracks <- neutrominer::track(data, strata)
+#'  min_path_length <- 5
+#'  trackQuality <- neutrominer::assess(tracks,min_path_length,strata)
+#' @importFrom magrittr %>%
+#' @export
 assess <- function(tracks, min_path_length = 19, strata) {
   track_info <- list(valid_observation_time(tracks, min_path_length),
     validate_tracks(tracks, min_path_length))
