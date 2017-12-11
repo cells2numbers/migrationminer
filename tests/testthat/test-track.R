@@ -15,77 +15,22 @@ test_that("`track` collapse single cell data to track objects", {
     Location_Center_X = c(1, 2, 3, 4, 5),
     Location_Center_Y = c(1, 1, 1, 1, 1),
     TrackObjects_Label = c(rep(1, 5)),
-    Metadata_condition = c('a','a','a','a','a')
+    Metadata_condition = c("a", "a", "a", "a", "a")
   )
 
-  # ##############################################################################################################
-  # # debug data to find inf values in directionality
-  # debug_data <- tibble::data_frame(
-  #   Metadata_timePoint = c(1,2,3,5,6),
-  #   Location_Center_X = c(1, 2, 3, 4, 5),
-  #   Location_Center_Y = c(1, 1, 1, 1, 1),
-  #   TrackObjects_Label = c(2,2,2,2,2),
-  #   Metadata_condition = c('a','a','a','a','a')
-  # ) %>%
-  #   print
-  #
-  # displace <- function(population, strata) {
-  #   dplyr::right_join(
-  #     population %>%
-  #       dplyr::mutate(Helper_order =  order(Metadata_timePoint)) %>%
-  #       dplyr::select_(.dots = c(strata, 'Location_Center_X', 'Location_Center_Y','Helper_order')) %>%
-  #       #dplyr::mutate(Metadata_timePoint2 =  c(0,Metadata_timePoint[1:(length(Metadata_timePoint) - 1)]) ) %>%
-  #       #dplyr::mutate(Metadata_timePoint2 =  (Metadata_timePoint - 1) ) %>%
-  #       dplyr::mutate(Helper_order =  Helper_order - 1),
-  #       #dplyr::filter(Metadata_timePoint2 != -1) %>%
-  #       #dplyr::select(-Metadata_timePoint),
-  #       population %>% dplyr::mutate(Helper_order =  order(Metadata_timePoint)),
-  #     by = (.dots = c(strata, "Helper_order"))
-  #   ) %>%
-  #     dplyr::mutate(Track_dX = Location_Center_X.x - Location_Center_X.y) %>%
-  #     dplyr::mutate(Track_dY = Location_Center_Y.x - Location_Center_Y.y) %>%
-  #     dplyr::select(-Location_Center_X.x, -Location_Center_Y.x) %>%
-  #     dplyr::rename(Location_Center_X = Location_Center_X.y) %>%
-  #     dplyr::rename(Location_Center_Y = Location_Center_Y.y) %>%
-  #     #dplyr::rename(Metadata_timePoint = Metadata_timePoint2) %>%
-  #     dplyr::mutate(TrackObjects_Distance_Traveled = sqrt(Track_dX^2 + Track_dY^2))
-  # }
-  #
-  # strata <- c('TrackObjects_Label', 'Metadata_condition')
-  #
-  # displace(debug_data, strata)
 
-  # debug_data <- dplyr::group_by_(debug_data,.dots = c('TrackObjects_Label', 'Metadata_condition'))
-  # debug_feature <- neutrominer::track(debug_data, c('TrackObjects_Label', 'Metadata_condition'))
-  #
-  # print(debug_feature)
-  #
-  # displacement <- neutrominer::displace(debug_data, c('TrackObjects_Label', 'Metadata_condition')) %>%
-  # print(displacement)
-  #
-  # debug_data %>%
-  #   dplyr::ungroup() %>%
-  #   dplyr::select_(.dots = c('TrackObjects_Label', 'Location_Center_X', 'Location_Center_Y','Metadata_timePoint')) %>%
-  #   dplyr::mutate(Metadata_timePoint2 =  (Metadata_timePoint - 1) ) %>%
-  #   #dplyr::mutate(Metadata_timePoint3 =  c(-1,Metadata_timePoint[1:(length(Metadata_timePoint) - 1)]) ) %>%
-  #   dplyr::mutate(Metadata_timePoint4 =  order(Metadata_timePoint) - 1 ) %>%
-  #   dplyr::filter(Metadata_timePoint2 != -1) %>%
-  #   #dplyr::select(-Metadata_condition) %>%
-  #   print
-  #
-  #
+  data2 <- dplyr::group_by_(data2,
+    .dots = c("TrackObjects_Label", "Metadata_condition")
+    )
 
-  # Metadata_timePoint[1:length(Metadata_timePoint)]
-  # end dubug code
-  ##############################################################################################################
-
-  data2 <- dplyr::group_by_(data2,.dots = c('TrackObjects_Label', 'Metadata_condition'))
-  f2 <- neutrominer::track(data2, c('TrackObjects_Label', 'Metadata_condition'))
+  f2 <- neutrominer::track(data2,
+    c("TrackObjects_Label", "Metadata_condition")
+    )
 
   # define results for test data
   distances <- tibble::data_frame(
     TrackObjects_Label = c(1),
-    TrackObjects_Distance_Traveled = c(1,1,1,1)
+    TrackObjects_Distance_Traveled = c(1, 1, 1, 1)
   )
 
   track_angle <- tibble::data_frame(
@@ -106,7 +51,7 @@ test_that("`track` collapse single cell data to track objects", {
 
   track_distance  <- tibble::data_frame(
     TrackObjects_Label = c(1),
-    Track_Integrated_Distance_Traveled = c(4),
+    Track_Integrated_Dist_Traveled = c(4),
     Track_Distance_Traveled = c(4)
   )
 
@@ -185,15 +130,18 @@ test_that("`track` collapse single cell data to track objects", {
     track_sectors,
     track_speed)
 
-  strata <- 'TrackObjects_Label'
-  features <- Reduce(function(...) merge(..., all = TRUE, by = strata), feature_list)
+  strata <- "TrackObjects_Label"
+  features <- Reduce(
+    function(...) merge(..., all = TRUE, by = strata),
+    feature_list
+    )
 
-  track_data <- neutrominer:::displace(data,strata) %>%
+  track_data <- neutrominer:::displace(data, strata) %>%
     dplyr::group_by_(strata)
 
   expect_equal(
     track_data %>%
-      track(.,strata),
+      track(., strata),
     features
   )
 
@@ -247,7 +195,7 @@ test_that("`track` collapse single cell data to track objects", {
 
   expect_equal(
     track_data %>%
-      neutrominer::mean_squared_displacement(.,2),
+      neutrominer::mean_squared_displacement(., 2),
     track_msd
   )
 
@@ -265,18 +213,18 @@ test_that("`track` collapse single cell data to track objects", {
 
   expect_equivalent(
     features %>%
-      neutrominer::valid_observation_time(.,3),
+      neutrominer::valid_observation_time(., 3),
     vot
   )
 
   expect_equivalent(
     f2 %>%
-      neutrominer::validate_tracks(.,2),
+      neutrominer::validate_tracks(., 2),
     valid_tracks
   )
 
   expect_equivalent(
-    f2 %>% neutrominer::assess(.,2),
+    f2 %>% neutrominer::assess(., 2),
     track_quality
   )
 
