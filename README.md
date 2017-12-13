@@ -4,7 +4,11 @@
 # migrationminer
 migrationminer is a R package to analyse and profile in vitro cell tracking and migration data. It is belongs to the [cytominer-verse](https://github.com/cytomining/) used for morphological profiling and allows to create temporal or dynamic profiles. 
 
-It works well together with CellProiler and the CellProfiler tracking module also parsing other formats is easily possible.
+It works well together with CellProiler and the CellProfiler tracking module. Beside that it is quite easy to parse other formats as long as the tracking data is available in tidy format. That means, that the data is available as csv where each row represents a cell with at least four columns
+* x coordinate  
+* y coordinate 
+* time point 
+* track label
 
 # Installation 
 migrationminer is not yet available from CRAN but you can install directly from github. First, you need to install the devtools package. You can do this from CRAN. Invoke R and then type
