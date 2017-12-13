@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/cells2numbers/migrationminer.svg?branch=master)](https://travis-ci.org/cells2numbers/migrationminer) 
-[![Coverage Status](https://img.shields.io/codecov/c/github/cells2numbers/migrationminer/master.svg)](https://codecov.io/github/cells2numbers/migrationminer?branch=master)
+[![codecov](https://codecov.io/gh/cells2numbers/migrationminer/branch/master/graph/badge.svg)](https://codecov.io/gh/cells2numbers/migrationminer)
 
 # migrationminer
 migrationminer is a R package to analyse and profile in vitro cell tracking and migration data. It is belongs to the [cytominer-verse](https://github.com/cytomining/) used for morphological profiling and allows to create temporal or dynamic profiles. 
