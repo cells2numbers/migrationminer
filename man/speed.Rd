@@ -22,6 +22,6 @@ Add spatial displacement per frame for each track object
    Location_Center_Y = c(1, 1, 1, 1, 1),
    TrackObjects_Label = c(rep(1, 5))
  )
- tracks <- neutrominer::displace(data,'TrackObjects_Label')
- speed <- neutrominer::speed(tracks)
+ tracks <- migrationminer::displace(data,"TrackObjects_Label")
+ speed <- migrationminer::speed(tracks)
 }

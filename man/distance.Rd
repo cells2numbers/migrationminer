@@ -22,7 +22,7 @@ Calculate distance traveled and the integrated distance traveled of a track obje
    Location_Center_Y = c(1, 1, 1, 1, 1),
    TrackObjects_Label = c(rep(1, 5))
  )
- tracks <- neutrominer::displace(data,'TrackObjects_Label')
- distance <-  neutrominer::distance(tracks)
+ tracks <- migrationminer::displace(data,"TrackObjects_Label")
+ distance <-  migrationminer::distance(tracks)
 
 }

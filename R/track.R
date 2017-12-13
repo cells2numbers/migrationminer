@@ -12,7 +12,7 @@
 #'    TrackObjects_Label = c(rep(1, 5))
 #'  )
 #'  data <- dplyr::group_by_(data,"TrackObjects_Label")
-#'  tracks <- neutrominer::track(data,"TrackObjects_Label")
+#'  tracks <- migrationminer::track(data,"TrackObjects_Label")
 #' @export
 track <- function(population, strata) {
   # process `population`, which is the data you get from CellProfiler
@@ -45,7 +45,7 @@ track <- function(population, strata) {
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
 #'    TrackObjects_Label = c(rep(1, 5))
 #'  )
-#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
+#'  tracks <- migrationminer::displace(data,"TrackObjects_Label")
 #' @importFrom magrittr %>%
 #' @importFrom magrittr %<>%
 #' @export
@@ -90,8 +90,8 @@ displace <- function(population, strata) {
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
 #'    TrackObjects_Label = c(rep(1, 5))
 #'  )
-#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#'  speed <- neutrominer::speed(tracks)
+#'  tracks <- migrationminer::displace(data,"TrackObjects_Label")
+#'  speed <- migrationminer::speed(tracks)
 #' @importFrom magrittr %>%
 #' @export
 speed <- function(tracks) {
@@ -117,8 +117,8 @@ speed <- function(tracks) {
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
 #'    TrackObjects_Label = c(rep(1, 5))
 #'  )
-#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#'  forward_migration_index <- neutrominer::forward_migration_index(tracks)
+#'  tracks <- migrationminer::displace(data,"TrackObjects_Label")
+#'  forward_migration_index <- migrationminer::forward_migration_index(tracks)
 #'
 #' @importFrom magrittr %>%
 #' @importFrom utils tail
@@ -154,8 +154,8 @@ forward_migration_index <- function(tracks) {
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
 #'    TrackObjects_Label = c(rep(1, 5))
 #'  )
-#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#'  lifetime <-  neutrominer::lifetime(tracks)
+#'  tracks <- migrationminer::displace(data,"TrackObjects_Label")
+#'  lifetime <-  migrationminer::lifetime(tracks)
 #'
 #' @importFrom magrittr %>%
 #' @export
@@ -180,8 +180,8 @@ lifetime  <- function(tracks) {
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
 #'    TrackObjects_Label = c(rep(1, 5))
 #'  )
-#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#'  angle <-  neutrominer::angle(tracks)
+#'  tracks <- migrationminer::displace(data,"TrackObjects_Label")
+#'  angle <-  migrationminer::angle(tracks)
 #'
 #' @importFrom magrittr %>%
 #' @importFrom utils tail
@@ -206,8 +206,8 @@ angle <- function(tracks) {
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
 #'    TrackObjects_Label = c(rep(1, 5))
 #'  )
-#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#'  distance <-  neutrominer::distance(tracks)
+#'  tracks <- migrationminer::displace(data,"TrackObjects_Label")
+#'  distance <-  migrationminer::distance(tracks)
 #'
 #' @importFrom magrittr %>%
 #' @importFrom utils tail
@@ -234,8 +234,8 @@ distance <- function(tracks) {
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
 #'    TrackObjects_Label = c(rep(1, 5))
 #'  )
-#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#'  directionality <-  neutrominer::directionality(tracks)
+#'  tracks <- migrationminer::displace(data,"TrackObjects_Label")
+#'  directionality <-  migrationminer::directionality(tracks)
 #'
 #' @importFrom magrittr %>%
 #' @export
@@ -264,8 +264,8 @@ directionality <- function(tracks) {
 #'    TrackObjects_Label = c(rep(1, 5))
 #'  )
 #'  tau <- 2
-#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#'  mean_squared_displacement <-  neutrominer::mean_squared_displacement(tracks,tau)
+#'  tracks <- migrationminer::displace(data,"TrackObjects_Label")
+#'  mean_squared_displacement <-  migrationminer::mean_squared_displacement(tracks,tau)
 #'
 #' @importFrom magrittr %>%
 #' @export
@@ -287,8 +287,8 @@ mean_squared_displacement <- function(tracks, tau = 10) {
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
 #'    TrackObjects_Label = c(rep(1, 5))
 #'  )
-#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#'  directional_persistence <-  neutrominer::directional_persistence(tracks)
+#'  tracks <- migrationminer::displace(data,"TrackObjects_Label")
+#'  directional_persistence <-  migrationminer::directional_persistence(tracks)
 #'
 #' @importFrom magrittr %>%
 #' @export
@@ -310,8 +310,8 @@ directional_persistence <- function(tracks) {
 #'   Location_Center_Y = c(1, 1, 1, 1, 1),
 #'   TrackObjects_Label = c(rep(1, 5))
 #' )
-#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#'  chemotaxis_index <-  neutrominer::chemotaxis_index(tracks)
+#'  tracks <- migrationminer::displace(data,"TrackObjects_Label")
+#'  chemotaxis_index <-  migrationminer::chemotaxis_index(tracks)
 #' @importFrom magrittr %>%
 #' @export
 chemotaxis_index <- function(tracks) {
@@ -337,8 +337,8 @@ chemotaxis_index <- function(tracks) {
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
 #'    TrackObjects_Label = c(rep(1, 5))
 #'  )
-#'  tracks <- neutrominer::displace(data,"TrackObjects_Label")
-#'  sector_analysis <-  neutrominer::sector_analysis(tracks)
+#'  tracks <- migrationminer::displace(data,"TrackObjects_Label")
+#'  sector_analysis <-  migrationminer::sector_analysis(tracks)
 #'
 #' @importFrom magrittr %>%
 #' @export
@@ -383,9 +383,9 @@ sector_analysis <- function(tracks) {
 #'    TrackObjects_Label = c(rep(1, 5))
 #'  )
 #'  data <- dplyr::group_by_(data, "TrackObjects_Label")
-#'  tracks <- neutrominer::track(data, "TrackObjects_Label")
+#'  tracks <- migrationminer::track(data, "TrackObjects_Label")
 #'  min_path_length <- 5
-#'  vot <-   neutrominer::valid_observation_time(tracks, min_path_length)
+#'  vot <-   migrationminer::valid_observation_time(tracks, min_path_length)
 #' @importFrom magrittr %>%
 #' @export
 valid_observation_time <- function(tracks, min_path_length = 19) {
@@ -412,9 +412,9 @@ valid_observation_time <- function(tracks, min_path_length = 19) {
 #'    TrackObjects_Label = c(rep(1, 5))
 #'  )
 #'  data <- dplyr::group_by_(data,"TrackObjects_Label")
-#'  tracks <- neutrominer::track(data,"TrackObjects_Label")
+#'  tracks <- migrationminer::track(data,"TrackObjects_Label")
 #'  min_path_length <- 5
-#'  validate_tracks <-   neutrominer::validate_tracks(tracks, min_path_length)
+#'  validate_tracks <-   migrationminer::validate_tracks(tracks, min_path_length)
 #' @importFrom magrittr %>%
 #' @export
 validate_tracks <- function(tracks, min_path_length = 19){
@@ -444,9 +444,9 @@ validate_tracks <- function(tracks, min_path_length = 19){
 #'  )
 #'  strata <- "TrackObjects_Label"
 #'  data <- dplyr::group_by_(data, strata)
-#'  tracks <- neutrominer::track(data, strata)
+#'  tracks <- migrationminer::track(data, strata)
 #'  min_path_length <- 5
-#'  trackQuality <- neutrominer::assess(tracks,min_path_length,strata)
+#'  trackQuality <- migrationminer::assess(tracks,min_path_length,strata)
 #' @importFrom magrittr %>%
 #' @export
 assess <- function(tracks, min_path_length = 19, strata) {

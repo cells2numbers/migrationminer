@@ -1,11 +1,11 @@
 Title: Package for Creating and Analyzing Migration Profiles for Single Cell Tracking / Time Lapse Data
-Package: neutrominer
+Package: migrationminer
 Type: Package
 Version: 0.1.0
 Authors@R: as.person(c( "Tim Becker <tim.becker.83@gmail.com> [aut, cre]"))
 Description: Trajectory data of in vitro cell tracking experiments is difficult
     to analyze in an automated and standardized way. To analyze, visualize and 
-    aggregate these data sets, neutrominer implements different methods to 
+    aggregate these data sets, migrationminer implements different methods to 
     characterize single (cellular) trajectories including speed, directionality, 
     forward migration index or the chemotaxis index. Different methods are 
     provided to assess the tracking quality including 2D / 3D visualizations and 
@@ -31,6 +31,6 @@ Suggests:
     tidyr (>= 0.6.0),
     covr
 VignetteBuilder: knitr
-URL: https://github.com/cells2numbers/neutrominer
-BugReports: https://github.com/cells2numbers/neutrominer/issues
+URL: https://github.com/cells2numbers/migrationminer
+BugReports: https://github.com/cells2numbers/migrationminer/issues
 RoxygenNote: 6.0.1

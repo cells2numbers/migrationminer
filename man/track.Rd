@@ -24,6 +24,6 @@ Compute track statistics
    Location_Center_Y = c(1, 1, 1, 1, 1),
    TrackObjects_Label = c(rep(1, 5))
  )
- data <- dplyr::group_by_(data,'TrackObjects_Label')
- tracks <- neutrominer::track(data,'TrackObjects_Label')
+ data <- dplyr::group_by_(data,"TrackObjects_Label")
+ tracks <- migrationminer::track(data,"TrackObjects_Label")
 }

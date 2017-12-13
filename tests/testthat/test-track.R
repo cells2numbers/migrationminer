@@ -23,7 +23,7 @@ test_that("`track` collapse single cell data to track objects", {
     .dots = c("TrackObjects_Label", "Metadata_condition")
     )
 
-  f2 <- neutrominer::track(data2,
+  f2 <- migrationminer::track(data2,
     c("TrackObjects_Label", "Metadata_condition")
     )
 
@@ -136,7 +136,7 @@ test_that("`track` collapse single cell data to track objects", {
     feature_list
     )
 
-  track_data <- neutrominer:::displace(data, strata) %>%
+  track_data <- migrationminer:::displace(data, strata) %>%
     dplyr::group_by_(strata)
 
   expect_equal(
@@ -153,78 +153,78 @@ test_that("`track` collapse single cell data to track objects", {
   )
 
   expect_equal(
-    track_data %>% neutrominer::angle(.),
+    track_data %>% migrationminer::angle(.),
     track_angle
   )
 
   expect_equal(
     track_data %>%
-      neutrominer::chemotaxis_index(.),
+      migrationminer::chemotaxis_index(.),
     track_ci
   )
 
   expect_equal(
     track_data %>%
-      neutrominer::directionality(.),
+      migrationminer::directionality(.),
     track_directionality
   )
 
   expect_equal(
     track_data %>%
-      neutrominer::distance(.),
+      migrationminer::distance(.),
     track_distance
   )
 
   expect_equal(
     track_data %>%
-      neutrominer::directional_persistence(.),
+      migrationminer::directional_persistence(.),
     track_dp
   )
 
   expect_equal(
     track_data %>%
-      neutrominer::forward_migration_index(.),
+      migrationminer::forward_migration_index(.),
     track_fmi
   )
 
   expect_equal(
     track_data %>%
-      neutrominer::lifetime(.),
+      migrationminer::lifetime(.),
     track_life_time
   )
 
   expect_equal(
     track_data %>%
-      neutrominer::mean_squared_displacement(., 2),
+      migrationminer::mean_squared_displacement(., 2),
     track_msd
   )
 
   expect_equal(
     track_data %>%
-      neutrominer::sector_analysis(),
+      migrationminer::sector_analysis(),
     track_sectors
   )
 
   expect_equal(
     track_data %>%
-      neutrominer::speed(),
+      migrationminer::speed(),
     track_speed
   )
 
   expect_equivalent(
     features %>%
-      neutrominer::valid_observation_time(., 3),
+      migrationminer::valid_observation_time(., 3),
     vot
   )
 
   expect_equivalent(
     f2 %>%
-      neutrominer::validate_tracks(., 2),
+      migrationminer::validate_tracks(., 2),
     valid_tracks
   )
 
   expect_equivalent(
-    f2 %>% neutrominer::assess(., 2),
+    f2 %>% migrationminer::assess(., 2),
     track_quality
   )
 

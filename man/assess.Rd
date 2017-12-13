@@ -4,7 +4,7 @@
 \alias{assess}
 \title{Assess track quality.}
 \usage{
-assess(tracks, min_path_length, strata)
+assess(tracks, min_path_length = 19, strata)
 }
 \arguments{
 \item{tracks}{data frame with track objects}
@@ -26,9 +26,9 @@ Assess track quality.
    Location_Center_Y = c(1, 1, 1, 1, 1),
    TrackObjects_Label = c(rep(1, 5))
  )
- strata <- 'TrackObjects_Label'
- data <- dplyr::group_by_(data,strata)
- tracks <- neutrominer::track(data,strata)
+ strata <- "TrackObjects_Label"
+ data <- dplyr::group_by_(data, strata)
+ tracks <- migrationminer::track(data, strata)
  min_path_length <- 5
- trackQuality <- neutrominer::assess(tracks,min_path_length,strata)
+ trackQuality <- migrationminer::assess(tracks,min_path_length,strata)
 }
