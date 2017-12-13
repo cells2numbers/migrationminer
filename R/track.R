@@ -28,7 +28,8 @@ track <- function(population, strata) {
     lifetime(tracks),
     mean_squared_displacement(tracks, tau = 2),
     sector_analysis(tracks),
-    speed(tracks))
+    speed(tracks),
+    mean_position(tracks))
 
   return(Reduce(function(...) merge(..., all = TRUE, by = strata), features))
 }
@@ -453,4 +454,27 @@ assess <- function(tracks, min_path_length = 19, strata) {
   track_info <- list(valid_observation_time(tracks, min_path_length),
     validate_tracks(tracks, min_path_length))
   return(Reduce(function(...) merge(..., all = TRUE, by_ = strata), track_info))
+}
+
+#'Get mean position
+#' @param tracks data frame with track objects
+#' @param strata column name of track index column
+#' @return data frame with mean x and y positions
+#' @examples
+#'  data <- tibble::data_frame(
+#'    Metadata_timePoint = c(1:5),
+#'    Location_Center_X = c(1, 2, 3, 4, 5),
+#'    Location_Center_Y = c(1, 1, 1, 1, 1),
+#'    TrackObjects_Label = c(rep(1, 5))
+#'  )
+#'  strata <- 'TrackObjects_Label'
+#'  data <- dplyr::group_by_(data,strata)
+#'  position <- migrationminer::mean_position(data,strata)
+#' @importFrom magrittr %>%
+#' @export
+mean_position <- function(tracks, strata) {
+  tracks %>% dplyr::summarise(
+        Track_Pos_X = mean(Location_Center_X),
+        Track_Pos_Y = mean(Location_Center_Y)
+    )
 }
