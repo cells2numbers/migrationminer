@@ -2,7 +2,7 @@
 % Please edit documentation in R/track.R
 \name{directionality}
 \alias{directionality}
-\title{Calculate the directionality of a track object.}
+\title{Directionality of a track object.}
 \usage{
 directionality(tracks)
 }
@@ -13,7 +13,7 @@ directionality(tracks)
 directionality
 }
 \description{
-Calculate the directionality of a track object.
+Directionality of a track object.
 }
 \examples{
  data <- tibble::data_frame(

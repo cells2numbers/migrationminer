@@ -2,7 +2,7 @@
 % Please edit documentation in R/track.R
 \name{lifetime}
 \alias{lifetime}
-\title{Calculate lifetime of a track object.}
+\title{Lifetime of a track object.}
 \usage{
 lifetime(tracks)
 }
@@ -13,7 +13,7 @@ lifetime(tracks)
 Calculate life time of each track object
 }
 \description{
-Calculate lifetime of a track object.
+Lifetime of a track object.
 }
 \examples{
  data <- tibble::data_frame(

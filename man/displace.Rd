@@ -12,11 +12,11 @@ displace(population, strata, x_var = "Location_Center_X",
 
 \item{strata, }{column name storing the track label}
 
-\item{x_var}{variable name used for x-coordinates}
+\item{x_var}{variable name / columne name used for x-coordinates}
 
-\item{y_var}{variable name used for y-coordinates}
+\item{y_var}{variable name / columne name used for y-coordinates}
 
-\item{t_var}{variable name used for time coordinates}
+\item{t_var}{variable name / columne name used for time coordinates}
 }
 \value{
 displacement

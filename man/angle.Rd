@@ -2,18 +2,22 @@
 % Please edit documentation in R/track.R
 \name{angle}
 \alias{angle}
-\title{Calculate angle of a track object.}
+\title{Angle of a track object.}
 \usage{
-angle(tracks)
+angle(tracks, x_var = "Location_Center_X", y_var = "Location_Center_Y")
 }
 \arguments{
 \item{tracks}{data frame with track objects}
+
+\item{x_var}{variable name / columne name used for x-coordinates}
+
+\item{y_var}{variable name / columne name used for y-coordinates}
 }
 \value{
 The angle of each track
 }
 \description{
-Calculate angle of a track object.
+Angle of a track object.
 }
 \examples{
  data <- tibble::data_frame(

@@ -4,10 +4,15 @@
 \alias{forward_migration_index}
 \title{Compute the forward migration index of a tracked object}
 \usage{
-forward_migration_index(tracks)
+forward_migration_index(tracks, x_var = "Location_Center_X",
+  y_var = "Location_Center_Y")
 }
 \arguments{
 \item{tracks}{data frame with track objects}
+
+\item{x_var}{variable name / columne name used for x-coordinates}
+
+\item{y_var}{variable name / columne name used for y-coordinates}
 }
 \value{
 forward migration index
