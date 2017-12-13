@@ -37,6 +37,9 @@ track <- function(population, strata) {
 #' Add spatial displacement per frame for each track object
 #'
 #' @param population, data frame storing single cell data
+#' @param x_var variable name used for x-coordinates
+#' @param y_var variable name used for y-coordinates
+#' @param t_var variable name used for time coordinates
 #' @param strata, column name storing the track label
 #' @return displacement
 #' @examples
@@ -53,26 +56,51 @@ track <- function(population, strata) {
 #'
 
 
-displace <- function(population, strata) {
+displace <- function(population, strata,
+                      x_var = "Location_Center_X",
+                      y_var = "Location_Center_Y",
+                      t_var = "Metadata_timePoint") {
+  t_var <- as.name(t_var)
+
   dplyr::right_join(
     population %>%
-      dplyr::mutate(helper_order =  order(Metadata_timePoint)) %>%
-      dplyr::select_( .dots = c(strata, "Location_Center_X",
-        "Location_Center_Y", "helper_order")) %>%
-      #dplyr::mutate(Metadata_timePoint2 =
-      #       c(0,Metadata_timePoint[1:(length(Metadata_timePoint) - 1)]) ) %>%
-      #dplyr::mutate(Metadata_timePoint2 =  (Metadata_timePoint - 1) ) %>%
+      dplyr::mutate(helper_order =  order(!! t_var)) %>%
+      dplyr::select_( .dots = c(strata,  x_var, y_var, "helper_order")) %>%
       dplyr::mutate(helper_order =  helper_order - 1),
-      #dplyr::filter(Metadata_timePoint2 != -1) %>%
-      #dplyr::select(-Metadata_timePoint),
-    population %>% dplyr::mutate(helper_order =  order(Metadata_timePoint)),
-    by = (.dots = c(strata, "helper_order"))
+    population %>% dplyr::mutate(helper_order =  order(!! t_var)),
+    #by = (.dots = c(strata, "helper_order"))
+    by = c(strata, "helper_order")
     ) %>%
-  dplyr::mutate(Track_dX = Location_Center_X.x - Location_Center_X.y) %>%
-  dplyr::mutate(Track_dY = Location_Center_Y.x - Location_Center_Y.y) %>%
-  dplyr::select(-Location_Center_X.x, -Location_Center_Y.x) %>%
-  dplyr::rename(Location_Center_X = Location_Center_X.y) %>%
-  dplyr::rename(Location_Center_Y = Location_Center_Y.y) %>%
+  dplyr::mutate(
+    Track_dX =
+      (!!(as.name(stringr::str_c(x_var, ".x")))) -
+      (!!(as.name(stringr::str_c(x_var, ".y"))))
+  ) %>%
+  dplyr::mutate(
+    Track_dY =
+      (!!(as.name(stringr::str_c(y_var, ".x")))) -
+      (!!(as.name(stringr::str_c(y_var, ".y"))))
+  ) %>%
+  dplyr::select(
+    - (!!(as.name(stringr::str_c(x_var, ".x")))),
+    - (!!(as.name(stringr::str_c(y_var, ".x"))))
+  ) %>%
+    #
+    # when using rename with expression "=" needs to be replaced with ":=", see
+    # https://github.com/tidyverse/dplyr/issues/1600
+    # also see vignette("programming")
+  dplyr::rename(
+    !!x_var := !!stringr::str_c(x_var, ".y")
+  ) %>%
+  dplyr::rename(
+    !!y_var := !!stringr::str_c(y_var, ".y")
+  ) %>%
+  # old code without tidyeval
+  #dplyr::mutate(Track_dX = Location_Center_X.x - Location_Center_X.y) %>%
+  #dplyr::mutate(Track_dY = Location_Center_Y.x - Location_Center_Y.y) %>%
+  #dplyr::select(-Location_Center_X.x, -Location_Center_Y.x) %>%
+  #dplyr::rename(Location_Center_X = Location_Center_X.y) %>%
+  #dplyr::rename(Location_Center_Y = Location_Center_Y.y) %>%
   #dplyr::rename(Metadata_timePoint = Metadata_timePoint2) %>%
   dplyr::select(-helper_order) %>%
   dplyr::mutate(
@@ -478,3 +506,8 @@ mean_position <- function(tracks, strata) {
         Track_Pos_Y = mean(Location_Center_Y)
     )
 }
+#'3D trajectory plot
+#'
+#' @param tracks data frame with track objects
+#' @param strata
+#' trajectory_plot3d() <- function()
