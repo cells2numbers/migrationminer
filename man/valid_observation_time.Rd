@@ -5,7 +5,7 @@
 \title{calculate valid observation time as sum of the length of all
 valid tracks divided by the sum of the length of all tracks}
 \usage{
-valid_observation_time(tracks, min_path_length)
+valid_observation_time(tracks, min_path_length = 19)
 }
 \arguments{
 \item{tracks}{data frame with track objects}
@@ -26,8 +26,8 @@ valid tracks divided by the sum of the length of all tracks
    Location_Center_Y = c(1, 1, 1, 1, 1),
    TrackObjects_Label = c(rep(1, 5))
  )
- data <- dplyr::group_by_(data,'TrackObjects_Label')
- tracks <- neutrominer::track(data,'TrackObjects_Label')
+ data <- dplyr::group_by_(data, "TrackObjects_Label")
+ tracks <- migrationminer::track(data, "TrackObjects_Label")
  min_path_length <- 5
- vot <-   neutrominer::valid_observation_time(tracks, min_path_length)
+ vot <-   migrationminer::valid_observation_time(tracks, min_path_length)
 }

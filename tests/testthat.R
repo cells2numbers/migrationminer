@@ -1,4 +1,4 @@
 library(testthat)
-library(neutrominer)
+library(migrationminer)
 
-test_check("neutrominer")
+test_check("migrationminer")

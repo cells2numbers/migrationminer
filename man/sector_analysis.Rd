@@ -22,7 +22,7 @@ perform sector analysis and label each track according to its direction of movem
    Location_Center_Y = c(1, 1, 1, 1, 1),
    TrackObjects_Label = c(rep(1, 5))
  )
- tracks <- neutrominer::displace(data,'TrackObjects_Label')
- sector_analysis <-  neutrominer::sector_analysis(tracks)
+ tracks <- migrationminer::displace(data,"TrackObjects_Label")
+ sector_analysis <-  migrationminer::sector_analysis(tracks)
 
 }

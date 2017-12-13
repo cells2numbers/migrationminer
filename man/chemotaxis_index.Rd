@@ -22,6 +22,6 @@ data <- tibble::data_frame(
   Location_Center_Y = c(1, 1, 1, 1, 1),
   TrackObjects_Label = c(rep(1, 5))
 )
- tracks <- neutrominer::displace(data,'TrackObjects_Label')
- chemotaxis_index <-  neutrominer::chemotaxis_index(tracks)
+ tracks <- migrationminer::displace(data,"TrackObjects_Label")
+ chemotaxis_index <-  migrationminer::chemotaxis_index(tracks)
 }

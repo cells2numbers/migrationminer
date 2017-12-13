@@ -4,7 +4,7 @@
 \alias{validate_tracks}
 \title{Identify valid tracks. Valid tracks are defined as tracks with a life time longer then a predefined value.}
 \usage{
-validate_tracks(tracks, min_path_length)
+validate_tracks(tracks, min_path_length = 19)
 }
 \arguments{
 \item{tracks}{data frame with track objects}
@@ -24,8 +24,8 @@ Identify valid tracks. Valid tracks are defined as tracks with a life time longe
    Location_Center_Y = c(1, 1, 1, 1, 1),
    TrackObjects_Label = c(rep(1, 5))
  )
- data <- dplyr::group_by_(data,'TrackObjects_Label')
- tracks <- neutrominer::track(data,'TrackObjects_Label')
+ data <- dplyr::group_by_(data,"TrackObjects_Label")
+ tracks <- migrationminer::track(data,"TrackObjects_Label")
  min_path_length <- 5
- validate_tracks <-   neutrominer::validate_tracks(tracks, min_path_length)
+ validate_tracks <-   migrationminer::validate_tracks(tracks, min_path_length)
 }

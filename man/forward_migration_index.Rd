@@ -22,7 +22,7 @@ Compute the forward migration index of a tracked object
    Location_Center_Y = c(1, 1, 1, 1, 1),
    TrackObjects_Label = c(rep(1, 5))
  )
- tracks <- neutrominer::displace(data,'TrackObjects_Label')
- forward_migration_index <- neutrominer::forward_migration_index(tracks)
+ tracks <- migrationminer::displace(data,"TrackObjects_Label")
+ forward_migration_index <- migrationminer::forward_migration_index(tracks)
 
 }

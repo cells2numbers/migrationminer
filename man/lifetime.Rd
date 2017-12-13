@@ -22,7 +22,7 @@ Calculate lifetime of a track object.
    Location_Center_Y = c(1, 1, 1, 1, 1),
    TrackObjects_Label = c(rep(1, 5))
  )
- tracks <- neutrominer::displace(data,'TrackObjects_Label')
- lifetime <-  neutrominer::lifetime(tracks)
+ tracks <- migrationminer::displace(data,"TrackObjects_Label")
+ lifetime <-  migrationminer::lifetime(tracks)
 
 }

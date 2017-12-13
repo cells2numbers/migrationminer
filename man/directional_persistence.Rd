@@ -22,7 +22,7 @@ Calculate the mean directional_persistence of a track object.
    Location_Center_Y = c(1, 1, 1, 1, 1),
    TrackObjects_Label = c(rep(1, 5))
  )
- tracks <- neutrominer::displace(data,'TrackObjects_Label')
- directional_persistence <-  neutrominer::directional_persistence(tracks)
+ tracks <- migrationminer::displace(data,"TrackObjects_Label")
+ directional_persistence <-  migrationminer::directional_persistence(tracks)
 
 }

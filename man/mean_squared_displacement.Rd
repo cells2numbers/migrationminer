@@ -4,7 +4,7 @@
 \alias{mean_squared_displacement}
 \title{Calculate the mean squared displacement of a track object.}
 \usage{
-mean_squared_displacement(tracks, tau)
+mean_squared_displacement(tracks, tau = 10)
 }
 \arguments{
 \item{tracks}{data frame with track objects}
@@ -25,7 +25,7 @@ Calculate the mean squared displacement of a track object.
    TrackObjects_Label = c(rep(1, 5))
  )
  tau <- 2
- tracks <- neutrominer::displace(data,'TrackObjects_Label')
- mean_squared_displacement <-  neutrominer::mean_squared_displacement(tracks,tau)
+ tracks <- migrationminer::displace(data,"TrackObjects_Label")
+ mean_squared_displacement <-  migrationminer::mean_squared_displacement(tracks,tau)
 
 }

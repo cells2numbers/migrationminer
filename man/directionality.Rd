@@ -22,7 +22,7 @@ Calculate the directionality of a track object.
    Location_Center_Y = c(1, 1, 1, 1, 1),
    TrackObjects_Label = c(rep(1, 5))
  )
- tracks <- neutrominer::displace(data,'TrackObjects_Label')
- directionality <-  neutrominer::directionality(tracks)
+ tracks <- migrationminer::displace(data,"TrackObjects_Label")
+ directionality <-  migrationminer::directionality(tracks)
 
 }
