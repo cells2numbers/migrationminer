@@ -469,11 +469,12 @@ assess <- function(tracks, min_path_length = 19, strata) {
 #'  )
 #'  strata <- 'TrackObjects_Label'
 #'  data <- dplyr::group_by_(data,strata)
-#'  position <- neutrominer::mean_position(data,strata)
+#'  position <- migrationminer::mean_position(data,strata)
 #' @importFrom magrittr %>%
 #' @export
 mean_position <- function(tracks, strata) {
-  tracks %>% dplyr::summarise(Track_xPos = mean(Location_Center_X),
-                              Track_yPos = mean(Location_Center_Y)
+  tracks %>% dplyr::summarise(
+        Track_Pos_X = mean(Location_Center_X),
+        Track_Pos_Y = mean(Location_Center_Y)
     )
 }

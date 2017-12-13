@@ -118,6 +118,12 @@ test_that("`track` collapse single cell data to track objects", {
     Exp_Mean_Track_Life_Time = 5
   )
 
+  track_position <- tibble::data_frame(
+    TrackObjects_Label = c(1),
+    Track_Pos_X = 3,
+    Track_Pos_Y = 1
+  )
+
   # create test data for track command
   feature_list <- list(track_angle,
     track_ci,
@@ -128,7 +134,8 @@ test_that("`track` collapse single cell data to track objects", {
     track_life_time,
     track_msd,
     track_sectors,
-    track_speed)
+    track_speed,
+    track_position)
 
   strata <- "TrackObjects_Label"
   features <- Reduce(

@@ -26,5 +26,5 @@ Get mean position
  )
  strata <- 'TrackObjects_Label'
  data <- dplyr::group_by_(data,strata)
- position <- neutrominer::mean_position(data,strata)
+ position <- migrationminer::mean_position(data,strata)
 }
