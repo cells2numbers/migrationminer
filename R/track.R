@@ -42,7 +42,7 @@ track <- function(population, strata,
     y_var = y_var)
 
   features <- list(
-    angle(tracks),
+    angle(tracks, x_var = x_var, y_var = y_var),
     chemotaxis_index(tracks),
     directionality(tracks, x_var = x_var, y_var = y_var),
     distance(tracks, x_var = x_var, y_var = y_var),
@@ -287,8 +287,8 @@ angle <- function(tracks,
 #' @importFrom utils tail
 #' @export
 distance <- function(tracks,
-  x_var = "Location_Center_X",
-  y_var = "Location_Center_Y") {
+                      x_var = "Location_Center_X",
+                      y_var = "Location_Center_Y") {
 
   x_var <- as.name(x_var)
   y_var <- as.name(y_var)
@@ -385,6 +385,8 @@ directional_persistence <- function(tracks) {
 #' Calculate the mean chemotaxis index of a track object.
 #'
 #' @param tracks data frame with track objects
+#' @param x_var variable name / columne name used for x-coordinates
+#' @param y_var variable name / columne name used for y-coordinates
 #' @return chemotaxis_index
 #' @examples
 #' data <- tibble::data_frame(
@@ -397,9 +399,11 @@ directional_persistence <- function(tracks) {
 #'  chemotaxis_index <-  migrationminer::chemotaxis_index(tracks)
 #' @importFrom magrittr %>%
 #' @export
-chemotaxis_index <- function(tracks) {
+chemotaxis_index <- function(tracks,
+                              x_var = "Location_Center_X",
+                              y_var = "Location_Center_Y") {
   chemotaxis_index <- tracks %>%
-    angle() %>%
+    angle(., x_var = x_var, y_var = y_var) %>%
     dplyr::mutate(Track_CI = -cos(Track_Angle) ) %>%
     dplyr::select(-Track_Angle)
 }
@@ -412,6 +416,8 @@ chemotaxis_index <- function(tracks) {
 #' perform sector analysis and label each track according to its direction of movement.
 #
 #' @param tracks data frame with track objects
+#' @param x_var variable name / columne name used for x-coordinates
+#' @param y_var variable name / columne name used for y-coordinates
 #' @return sector
 #' @examples
 #'  data <- tibble::data_frame(
@@ -425,9 +431,11 @@ chemotaxis_index <- function(tracks) {
 #'
 #' @importFrom magrittr %>%
 #' @export
-sector_analysis <- function(tracks) {
+sector_analysis <- function(tracks,
+                            x_var = "Location_Center_X",
+                            y_var = "Location_Center_Y") {
   tracks %>%
-    angle() %>%
+    angle(., x_var = x_var, y_var = y_var) %>%
     dplyr::mutate(
       "Track_Positive_Sector" = as.numeric( abs(Track_Angle) > (3 * pi / 4)),
       "Track_Negative_Sector" = as.numeric(
@@ -557,8 +565,9 @@ assess <- function(tracks, min_path_length = 19, strata) {
 #'  position <- migrationminer::mean_position(data,strata)
 #' @importFrom magrittr %>%
 #' @export
-mean_position <- function(tracks, strata,  x_var = "Location_Center_X",
-  y_var = "Location_Center_Y") {
+mean_position <- function(tracks, strata,
+                          x_var = "Location_Center_X",
+                          y_var = "Location_Center_Y") {
 
   x_var <- as.name(x_var)
   y_var <- as.name(y_var)
