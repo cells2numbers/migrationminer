@@ -44,13 +44,13 @@ track <- function(population, strata,
   features <- list(
     angle(tracks),
     chemotaxis_index(tracks),
-    directionality(tracks),
-    distance(tracks),
+    directionality(tracks, x_var = x_var, y_var = y_var),
+    distance(tracks, x_var = x_var, y_var = y_var),
     directional_persistence(tracks),
     forward_migration_index(
       tracks = tracks,
-      x_var = "Location_Center_X",
-      y_var = "Location_Center_Y"),
+      x_var = x_var,
+      y_var = y_var),
     lifetime(tracks),
     mean_squared_displacement(tracks, tau = 2),
     sector_analysis(tracks),
@@ -270,6 +270,8 @@ angle <- function(tracks,
 #' Distance traveled and integrated distance traveled of a track object.
 #'
 #' @param tracks data frame with track objects
+#' @param x_var variable name / columne name used for x-coordinates
+#' @param y_var variable name / columne name used for y-coordinates
 #' @return distance traveled
 #' @examples
 #'  data <- tibble::data_frame(
@@ -284,20 +286,27 @@ angle <- function(tracks,
 #' @importFrom magrittr %>%
 #' @importFrom utils tail
 #' @export
-distance <- function(tracks) {
+distance <- function(tracks,
+  x_var = "Location_Center_X",
+  y_var = "Location_Center_Y") {
+
+  x_var <- as.name(x_var)
+  y_var <- as.name(y_var)
+
   tracks %>%
     dplyr::summarize(
       "Track_Integrated_Dist_Traveled" =
         sum(TrackObjects_Distance_Traveled, na.rm = TRUE),
       "Track_Distance_Traveled" =
-        sqrt( (tail(Location_Center_Y, n = 1) - Location_Center_Y[1] ) ^ 2 +
-              (tail(Location_Center_X, n = 1) - Location_Center_X[1] ) ^ 2 ))
+        sqrt( (tail(!!y_var, n = 1) - (!!y_var)[1] ) ^ 2 +
+              (tail(!!x_var, n = 1) - (!!x_var)[1] ) ^ 2 ))
 }
 
 #' Directionality of a track object.
 #'
 #' @param tracks data frame with track objects
-#'
+#' @param x_var variable name / columne name used for x-coordinates
+#' @param y_var variable name / columne name used for y-coordinates
 #' @return directionality
 #' @examples
 #'  data <- tibble::data_frame(
@@ -311,9 +320,11 @@ distance <- function(tracks) {
 #'
 #' @importFrom magrittr %>%
 #' @export
-directionality <- function(tracks) {
+directionality <- function(tracks,
+                            x_var = "Location_Center_X",
+                            y_var = "Location_Center_Y") {
   tracks %>%
-    distance() %>%
+    distance(., x_var = x_var, y_var = y_var) %>%
     dplyr::mutate(
       Track_Directionality =
         Track_Distance_Traveled / Track_Integrated_Dist_Traveled) %>%
