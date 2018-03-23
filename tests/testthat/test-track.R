@@ -51,7 +51,7 @@ test_that("`track` collapse single cell data to track objects", {
 
   track_distance  <- tibble::data_frame(
     TrackObjects_Label = c(1),
-    Track_Integrated_Dist_Traveled = c(4),
+    Track_Integrated_Distance_Traveled = c(4),
     Track_Distance_Traveled = c(4)
   )
 

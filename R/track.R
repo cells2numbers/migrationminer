@@ -5,7 +5,7 @@ if (getRversion() >= "2.15.1")  utils::globalVariables(
   c(":=", "n", "Location_Center_X", "Location_Center_Y", "Metadata_timePoint",
     "TrackObjects_Distance_Traveled", "Track_Angle", "Track_Directionality",
     "Track_Displacement_X", "Track_Displacement_Y", "Track_Distance_Traveled",
-    "Track_Integrated_Dist_Traveled", "Track_Length", "Track_Life_Time",
+    "Track_Integrated_Distance_Traveled", "Track_Length", "Track_Life_Time",
     "Track_Negative_Sector", "Track_Neutral_Sector_Down",
     "Track_Neutral_Sector_Up", "Track_Positive_Sector",  "Track_Valid",
     "Track_dX", "Track_dY", "sum_track", "sum_track_valid", "helper_order", ".")
@@ -98,6 +98,7 @@ displace <- function(population, strata,
   dplyr::mutate(
     Track_dX =
       (!!(as.name(stringr::str_c(x_var, ".x")))) -
+      #paste0(x_var,".x") -
       (!!(as.name(stringr::str_c(x_var, ".y"))))
   ) %>%
   dplyr::mutate(
@@ -187,7 +188,7 @@ forward_migration_index <- function(tracks,
 
   tracks %>%
     dplyr::summarize(
-      Track_Integrated_Dist_Traveled =
+      Track_Integrated_Distance_Traveled =
         sum(TrackObjects_Distance_Traveled, na.rm = TRUE),
       Track_Displacement_X =
         tail(!!x_var, n = 1) - (!!x_var)[1],
@@ -195,10 +196,10 @@ forward_migration_index <- function(tracks,
         tail(!!y_var, n = 1) - (!!y_var)[1]
     ) %>%
     dplyr::mutate(
-      Track_xFMI = Track_Displacement_X / Track_Integrated_Dist_Traveled,
-      Track_yFMI = Track_Displacement_Y / Track_Integrated_Dist_Traveled) %>%
+      Track_xFMI = Track_Displacement_X / Track_Integrated_Distance_Traveled,
+      Track_yFMI = Track_Displacement_Y / Track_Integrated_Distance_Traveled) %>%
     dplyr::select(
-      -Track_Integrated_Dist_Traveled,
+      -Track_Integrated_Distance_Traveled,
       -Track_Displacement_X,
       -Track_Displacement_Y
       )
@@ -261,8 +262,8 @@ angle <- function(tracks,
   tracks %>%
     dplyr::summarize(
       Track_Angle =
-        atan2(tail(!!y_var, n = 1) - (!!x_var)[1],
-              tail(!!x_var, n = 1) - (!!y_var)[1])
+        atan2(tail(!!y_var, n = 1) - (!!y_var)[1],
+              tail(!!x_var, n = 1) - (!!x_var)[1])
       )
 }
 #   tail(!!x_var, n = 1) - (!!x_var)[1],
@@ -295,7 +296,7 @@ distance <- function(tracks,
 
   tracks %>%
     dplyr::summarize(
-      "Track_Integrated_Dist_Traveled" =
+      "Track_Integrated_Distance_Traveled" =
         sum(TrackObjects_Distance_Traveled, na.rm = TRUE),
       "Track_Distance_Traveled" =
         sqrt( (tail(!!y_var, n = 1) - (!!y_var)[1] ) ^ 2 +
@@ -327,10 +328,10 @@ directionality <- function(tracks,
     distance(., x_var = x_var, y_var = y_var) %>%
     dplyr::mutate(
       Track_Directionality =
-        Track_Distance_Traveled / Track_Integrated_Dist_Traveled) %>%
+        Track_Distance_Traveled / Track_Integrated_Distance_Traveled) %>%
     dplyr::select(
       -Track_Distance_Traveled,
-      -Track_Integrated_Dist_Traveled
+      -Track_Integrated_Distance_Traveled
       )
 }
 
