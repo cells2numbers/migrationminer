@@ -2,7 +2,7 @@
 % Please edit documentation in R/track.R
 \name{speed}
 \alias{speed}
-\title{Add spatial displacement per frame for each track object}
+\title{Calculate speed for each track object in each frame}
 \usage{
 speed(tracks)
 }
@@ -13,7 +13,7 @@ speed(tracks)
 displacement
 }
 \description{
-Add spatial displacement per frame for each track object
+Calculate speed for each track object in each frame
 }
 \examples{
  data <- tibble::data_frame(

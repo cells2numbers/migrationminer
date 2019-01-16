@@ -4,12 +4,19 @@
 \alias{track}
 \title{Compute track statistics}
 \usage{
-track(population, strata)
+track(population, strata, x_var = "Location_Center_X",
+  y_var = "Location_Center_Y", t_var = "Metadata_timePoint")
 }
 \arguments{
 \item{population, }{single cell data}
 
 \item{strata, }{column name storing the track label}
+
+\item{x_var}{variable name / columne name used for x-coordinates}
+
+\item{y_var}{variable name / columne name used for y-coordinates}
+
+\item{t_var}{variable name / columne name used for time coordinates}
 }
 \value{
 track

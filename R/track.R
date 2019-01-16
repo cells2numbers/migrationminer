@@ -1,6 +1,22 @@
+# https://github.com/tidyverse/magrittr/issues/29
+#
+#
+if (getRversion() >= "2.15.1")  utils::globalVariables(
+  c(":=", "n", "Location_Center_X", "Location_Center_Y", "Metadata_timePoint",
+    "TrackObjects_Distance_Traveled", "Track_Angle", "Track_Directionality",
+    "Track_Displacement_X", "Track_Displacement_Y", "Track_Distance_Traveled",
+    "Track_Integrated_Distance_Traveled", "Track_Length", "Track_Life_Time",
+    "Track_Negative_Sector", "Track_Neutral_Sector_Down",
+    "Track_Neutral_Sector_Up", "Track_Positive_Sector",  "Track_Valid",
+    "Track_dX", "Track_dY", "sum_track", "sum_track_valid", "helper_order", ".")
+  )
+
 #' Compute track statistics
 #'
 #' @param population, single cell data
+#' @param x_var variable name / columne name used for x-coordinates
+#' @param y_var variable name / columne name used for y-coordinates
+#' @param t_var variable name / columne name used for time coordinates
 #' @param strata, column name storing the track label
 #' @return track
 #' @importFrom magrittr %>%
@@ -14,29 +30,43 @@
 #'  data <- dplyr::group_by_(data,"TrackObjects_Label")
 #'  tracks <- migrationminer::track(data,"TrackObjects_Label")
 #' @export
-track <- function(population, strata) {
+track <- function(population, strata,
+                  x_var = "Location_Center_X",
+                  y_var = "Location_Center_Y",
+                  t_var = "Metadata_timePoint") {
+
   # process `population`, which is the data you get from CellProfiler
-  tracks <- displace(population, strata)
+  tracks <- displace(population, strata,
+    t_var = t_var,
+    x_var = x_var,
+    y_var = y_var)
 
   features <- list(
-    angle(tracks),
+    angle(tracks, x_var = x_var, y_var = y_var),
     chemotaxis_index(tracks),
-    directionality(tracks),
-    distance(tracks),
+    directionality(tracks, x_var = x_var, y_var = y_var),
+    distance(tracks, x_var = x_var, y_var = y_var),
     directional_persistence(tracks),
-    forward_migration_index(tracks),
-    lifetime(tracks),
+    forward_migration_index(
+      tracks = tracks,
+      x_var = x_var,
+      y_var = y_var),
+    lifetime(tracks, t_var = t_var),
     mean_squared_displacement(tracks, tau = 2),
     sector_analysis(tracks),
     speed(tracks),
-    mean_position(tracks))
+    mean_position(tracks, x_var = x_var, y_var = y_var))
 
   return(Reduce(function(...) merge(..., all = TRUE, by = strata), features))
 }
 
+
 #' Add spatial displacement per frame for each track object
 #'
 #' @param population, data frame storing single cell data
+#' @param x_var variable name / columne name used for x-coordinates
+#' @param y_var variable name / columne name used for y-coordinates
+#' @param t_var variable name / columne name used for time coordinates
 #' @param strata, column name storing the track label
 #' @return displacement
 #' @examples
@@ -51,28 +81,51 @@ track <- function(population, strata) {
 #' @importFrom magrittr %<>%
 #' @export
 #'
+displace <- function(population, strata,
+                      x_var = "Location_Center_X",
+                      y_var = "Location_Center_Y",
+                      t_var = "Metadata_timePoint") {
+  t_var <- as.name(t_var)
 
-
-displace <- function(population, strata) {
-  dplyr::right_join(
+  displacement <- dplyr::right_join(
     population %>%
-      dplyr::mutate(helper_order =  order(Metadata_timePoint)) %>%
-      dplyr::select_( .dots = c(strata, "Location_Center_X",
-        "Location_Center_Y", "helper_order")) %>%
-      #dplyr::mutate(Metadata_timePoint2 =
-      #       c(0,Metadata_timePoint[1:(length(Metadata_timePoint) - 1)]) ) %>%
-      #dplyr::mutate(Metadata_timePoint2 =  (Metadata_timePoint - 1) ) %>%
+      dplyr::mutate(helper_order =  order(!! t_var)) %>%
+      dplyr::select_( .dots = c(strata,  x_var, y_var, "helper_order")) %>%
       dplyr::mutate(helper_order =  helper_order - 1),
-      #dplyr::filter(Metadata_timePoint2 != -1) %>%
-      #dplyr::select(-Metadata_timePoint),
-    population %>% dplyr::mutate(helper_order =  order(Metadata_timePoint)),
-    by = (.dots = c(strata, "helper_order"))
+    population %>% dplyr::mutate(helper_order =  order(!! t_var)),
+    by = c(strata, "helper_order")
     ) %>%
-  dplyr::mutate(Track_dX = Location_Center_X.x - Location_Center_X.y) %>%
-  dplyr::mutate(Track_dY = Location_Center_Y.x - Location_Center_Y.y) %>%
-  dplyr::select(-Location_Center_X.x, -Location_Center_Y.x) %>%
-  dplyr::rename(Location_Center_X = Location_Center_X.y) %>%
-  dplyr::rename(Location_Center_Y = Location_Center_Y.y) %>%
+  dplyr::mutate(
+    Track_dX =
+      (!!(as.name(stringr::str_c(x_var, ".x")))) -
+      #paste0(x_var,".x") -
+      (!!(as.name(stringr::str_c(x_var, ".y"))))
+  ) %>%
+  dplyr::mutate(
+    Track_dY =
+      (!!(as.name(stringr::str_c(y_var, ".x")))) -
+      (!!(as.name(stringr::str_c(y_var, ".y"))))
+  ) %>%
+  dplyr::select(
+    - (!!(as.name(stringr::str_c(x_var, ".x")))),
+    - (!!(as.name(stringr::str_c(y_var, ".x"))))
+  ) %>%
+    #
+    # when using rename with expression "=" needs to be replaced with ":=", see
+    # https://github.com/tidyverse/dplyr/issues/1600
+    # also see vignette("programming")
+  dplyr::rename(
+    !!x_var := !!stringr::str_c(x_var, ".y")
+  ) %>%
+  dplyr::rename(
+    !!y_var := !!stringr::str_c(y_var, ".y")
+  ) %>%
+  # old code without tidyeval
+  #dplyr::mutate(Track_dX = Location_Center_X.x - Location_Center_X.y) %>%
+  #dplyr::mutate(Track_dY = Location_Center_Y.x - Location_Center_Y.y) %>%
+  #dplyr::select(-Location_Center_X.x, -Location_Center_Y.x) %>%
+  #dplyr::rename(Location_Center_X = Location_Center_X.y) %>%
+  #dplyr::rename(Location_Center_Y = Location_Center_Y.y) %>%
   #dplyr::rename(Metadata_timePoint = Metadata_timePoint2) %>%
   dplyr::select(-helper_order) %>%
   dplyr::mutate(
@@ -80,7 +133,7 @@ displace <- function(population, strata) {
     )
 }
 
-#' Add spatial displacement per frame for each track object
+#' Calculate speed for each track object in each frame
 #'
 #' @param tracks data frame with single cell data
 #' @return displacement
@@ -104,12 +157,14 @@ speed <- function(tracks) {
       Track_Speed_X = sum(Track_dX, na.rm = TRUE) / (n() - 1),
       Track_Speed_Y = sum(Track_dY, na.rm = TRUE) / (n() - 1)) %>%
     dplyr::select(-Track_Length)
-
 }
+
 
 #' Compute the forward migration index of a tracked object
 #'
 #' @param tracks data frame with track objects
+#' @param x_var variable name / columne name used for x-coordinates
+#' @param y_var variable name / columne name used for y-coordinates
 #' @return forward migration index
 #' @examples
 #'  data <- tibble::data_frame(
@@ -124,29 +179,38 @@ speed <- function(tracks) {
 #' @importFrom magrittr %>%
 #' @importFrom utils tail
 #' @export
-forward_migration_index <- function(tracks) {
-  s <- tracks %>%
+forward_migration_index <- function(tracks,
+                                    x_var = "Location_Center_X",
+                                    y_var = "Location_Center_Y") {
+
+  x_var <- as.name(x_var)
+  y_var <- as.name(y_var)
+
+  tracks %>%
     dplyr::summarize(
-      Track_Integrated_Dist_Traveled =
+      Track_Integrated_Distance_Traveled =
         sum(TrackObjects_Distance_Traveled, na.rm = TRUE),
       Track_Displacement_X =
-        tail(Location_Center_X, n = 1) - Location_Center_X[1],
+        tail(!!x_var, n = 1) - (!!x_var)[1],
       Track_Displacement_Y =
-        tail(Location_Center_Y, n = 1) - Location_Center_Y[1]
+        tail(!!y_var, n = 1) - (!!y_var)[1]
     ) %>%
     dplyr::mutate(
-      Track_xFMI = Track_Displacement_X / Track_Integrated_Dist_Traveled,
-      Track_yFMI = Track_Displacement_Y / Track_Integrated_Dist_Traveled) %>%
+      Track_xFMI = Track_Displacement_X / Track_Integrated_Distance_Traveled,
+      Track_yFMI = Track_Displacement_Y / Track_Integrated_Distance_Traveled) %>%
     dplyr::select(
-      -Track_Integrated_Dist_Traveled,
+      -Track_Integrated_Distance_Traveled,
       -Track_Displacement_X,
       -Track_Displacement_Y
       )
+
 }
 
-#' Calculate lifetime of a track object.
+
+#' Lifetime of a track object.
 #'
 #' @param tracks data frame with track objects
+#' @param t_var variable name / columne name used for time coordinates
 #' @return Calculate life time of each track object
 #' @examples
 #'  data <- tibble::data_frame(
@@ -160,19 +224,24 @@ forward_migration_index <- function(tracks) {
 #'
 #' @importFrom magrittr %>%
 #' @export
-lifetime  <- function(tracks) {
+lifetime  <- function(tracks,  t_var = "Metadata_timePoint") {
+
+  t_var <- as.name(t_var)
+
   tracks %>%
     dplyr::summarize(
       Track_Length = n(),
       Track_Life_Time =
-        length(unique(Metadata_timePoint)),
+        length(unique(!!t_var)),
       Track_One_Cell =
-        length(unique(Metadata_timePoint)) == length(Metadata_timePoint) )
+        length(unique(!!t_var)) == length(!!t_var) )
 }
 
-#' Calculate angle of a track object.
+#' Angle of a track object.
 #'
 #' @param tracks data frame with track objects
+#' @param x_var variable name / columne name used for x-coordinates
+#' @param y_var variable name / columne name used for y-coordinates
 #' @return The angle of each track
 #' @examples
 #'  data <- tibble::data_frame(
@@ -187,18 +256,27 @@ lifetime  <- function(tracks) {
 #' @importFrom magrittr %>%
 #' @importFrom utils tail
 #' @export
-angle <- function(tracks) {
+angle <- function(tracks,
+                  x_var = "Location_Center_X",
+                  y_var = "Location_Center_Y") {
+
+  x_var <- as.name(x_var)
+  y_var <- as.name(y_var)
+
   tracks %>%
     dplyr::summarize(
       Track_Angle =
-        atan2(tail(Location_Center_Y, n = 1) - Location_Center_Y[1],
-              tail(Location_Center_X, n = 1) - Location_Center_X[1])
+        atan2(tail(!!y_var, n = 1) - (!!y_var)[1],
+              tail(!!x_var, n = 1) - (!!x_var)[1])
       )
 }
+#   tail(!!x_var, n = 1) - (!!x_var)[1],
 
-#' Calculate distance traveled and the integrated distance traveled of a track object.
+#' Distance traveled and integrated distance traveled of a track object.
 #'
 #' @param tracks data frame with track objects
+#' @param x_var variable name / columne name used for x-coordinates
+#' @param y_var variable name / columne name used for y-coordinates
 #' @return distance traveled
 #' @examples
 #'  data <- tibble::data_frame(
@@ -213,20 +291,27 @@ angle <- function(tracks) {
 #' @importFrom magrittr %>%
 #' @importFrom utils tail
 #' @export
-distance <- function(tracks) {
+distance <- function(tracks,
+                      x_var = "Location_Center_X",
+                      y_var = "Location_Center_Y") {
+
+  x_var <- as.name(x_var)
+  y_var <- as.name(y_var)
+
   tracks %>%
     dplyr::summarize(
-      Track_Integrated_Dist_Traveled =
+      "Track_Integrated_Distance_Traveled" =
         sum(TrackObjects_Distance_Traveled, na.rm = TRUE),
-      Track_Distance_Traveled =
-        sqrt( (tail(Location_Center_Y, n = 1) - Location_Center_Y[1] ) ^ 2 +
-              (tail(Location_Center_X, n = 1) - Location_Center_X[1] ) ^ 2 ))
+      "Track_Distance_Traveled" =
+        sqrt( (tail(!!y_var, n = 1) - (!!y_var)[1] ) ^ 2 +
+              (tail(!!x_var, n = 1) - (!!x_var)[1] ) ^ 2 ))
 }
 
-#' Calculate the directionality of a track object.
+#' Directionality of a track object.
 #'
 #' @param tracks data frame with track objects
-#'
+#' @param x_var variable name / columne name used for x-coordinates
+#' @param y_var variable name / columne name used for y-coordinates
 #' @return directionality
 #' @examples
 #'  data <- tibble::data_frame(
@@ -240,19 +325,21 @@ distance <- function(tracks) {
 #'
 #' @importFrom magrittr %>%
 #' @export
-directionality <- function(tracks) {
+directionality <- function(tracks,
+                            x_var = "Location_Center_X",
+                            y_var = "Location_Center_Y") {
   tracks %>%
-    distance() %>%
+    distance(., x_var = x_var, y_var = y_var) %>%
     dplyr::mutate(
       Track_Directionality =
-        Track_Distance_Traveled / Track_Integrated_Dist_Traveled) %>%
+        Track_Distance_Traveled / Track_Integrated_Distance_Traveled) %>%
     dplyr::select(
       -Track_Distance_Traveled,
-      -Track_Integrated_Dist_Traveled
+      -Track_Integrated_Distance_Traveled
       )
 }
 
-#' Calculate the mean squared displacement of a track object.
+#' Mean squared displacement of a track object.
 #'
 #' @param tracks data frame with track objects
 #' @param tau delta t
@@ -294,7 +381,7 @@ mean_squared_displacement <- function(tracks, tau = 10) {
 #' @importFrom magrittr %>%
 #' @export
 directional_persistence <- function(tracks) {
-  directional_persistence <- tracks %>%
+  tracks %>%
     directionality %>%
     dplyr::mutate(Track_DP = ceiling(3 * Track_Directionality)) %>%
     dplyr::select(-Track_Directionality)
@@ -303,6 +390,8 @@ directional_persistence <- function(tracks) {
 #' Calculate the mean chemotaxis index of a track object.
 #'
 #' @param tracks data frame with track objects
+#' @param x_var variable name / columne name used for x-coordinates
+#' @param y_var variable name / columne name used for y-coordinates
 #' @return chemotaxis_index
 #' @examples
 #' data <- tibble::data_frame(
@@ -315,9 +404,11 @@ directional_persistence <- function(tracks) {
 #'  chemotaxis_index <-  migrationminer::chemotaxis_index(tracks)
 #' @importFrom magrittr %>%
 #' @export
-chemotaxis_index <- function(tracks) {
+chemotaxis_index <- function(tracks,
+                              x_var = "Location_Center_X",
+                              y_var = "Location_Center_Y") {
   chemotaxis_index <- tracks %>%
-    angle() %>%
+    angle(., x_var = x_var, y_var = y_var) %>%
     dplyr::mutate(Track_CI = -cos(Track_Angle) ) %>%
     dplyr::select(-Track_Angle)
 }
@@ -330,6 +421,8 @@ chemotaxis_index <- function(tracks) {
 #' perform sector analysis and label each track according to its direction of movement.
 #
 #' @param tracks data frame with track objects
+#' @param x_var variable name / columne name used for x-coordinates
+#' @param y_var variable name / columne name used for y-coordinates
 #' @return sector
 #' @examples
 #'  data <- tibble::data_frame(
@@ -343,19 +436,21 @@ chemotaxis_index <- function(tracks) {
 #'
 #' @importFrom magrittr %>%
 #' @export
-sector_analysis <- function(tracks) {
-  sector_analysis <- tracks %>%
-    angle() %>%
+sector_analysis <- function(tracks,
+                            x_var = "Location_Center_X",
+                            y_var = "Location_Center_Y") {
+  tracks %>%
+    angle(., x_var = x_var, y_var = y_var) %>%
     dplyr::mutate(
-      Track_Positive_Sector = as.numeric( abs(Track_Angle) > (3 * pi / 4)),
-      Track_Negative_Sector = as.numeric(
+      "Track_Positive_Sector" = as.numeric( abs(Track_Angle) > (3 * pi / 4)),
+      "Track_Negative_Sector" = as.numeric(
         abs(Track_Angle) < pi / 4
         ),
-      Track_Neutral_Sector_Up = as.numeric(
+      "Track_Neutral_Sector_Up" = as.numeric(
         (Track_Angle >= pi / 4) &
         (Track_Angle < 3 * pi / 4 )
         ),
-      Track_Neutral_Sector_Down = as.numeric(
+      "Track_Neutral_Sector_Down" = as.numeric(
         (Track_Angle <= -pi / 4) &
         (Track_Angle >= -3 * pi / 4 )
         )
@@ -390,7 +485,7 @@ sector_analysis <- function(tracks) {
 #' @importFrom magrittr %>%
 #' @export
 valid_observation_time <- function(tracks, min_path_length = 19) {
-  valid_observation_time <- merge(tracks %>%
+  merge(tracks %>%
       dplyr::filter(Track_Length > min_path_length) %>%
       dplyr::summarise(sum_track_valid = sum(Track_Length)),
     tracks %>%
@@ -422,11 +517,11 @@ validate_tracks <- function(tracks, min_path_length = 19){
   tracks %>%
     dplyr::mutate(Track_Valid = as.numeric(Track_Length > min_path_length)) %>%
     dplyr::summarize(
-      Exp_Tracks = n(),
-      Exp_Valid_Tracks = sum(Track_Valid),
-      Exp_Valid_Track_Fraction = sum(Track_Valid) / n(),
-      Exp_Mean_Track_Length = mean(Track_Length),
-      Exp_Mean_Track_Life_Time = mean(Track_Life_Time)
+      "Exp_Tracks" = n(),
+      "Exp_Valid_Tracks" = sum(Track_Valid),
+      "Exp_Valid_Track_Fraction" = sum(Track_Valid) / n(),
+      "Exp_Mean_Track_Length" = mean(Track_Length),
+      "Exp_Mean_Track_Life_Time" = mean(Track_Life_Time)
       )
 }
 
@@ -451,14 +546,19 @@ validate_tracks <- function(tracks, min_path_length = 19){
 #' @importFrom magrittr %>%
 #' @export
 assess <- function(tracks, min_path_length = 19, strata) {
-  track_info <- list(valid_observation_time(tracks, min_path_length),
-    validate_tracks(tracks, min_path_length))
+  track_info <- list(
+    migrationminer::valid_observation_time(tracks, min_path_length),
+    migrationminer::validate_tracks(tracks, min_path_length)
+    )
+
   return(Reduce(function(...) merge(..., all = TRUE, by_ = strata), track_info))
 }
 
 #'Get mean position
 #' @param tracks data frame with track objects
 #' @param strata column name of track index column
+#' @param x_var variable name / columne name used for x-coordinates
+#' @param y_var variable name / columne name used for y-coordinates
 #' @return data frame with mean x and y positions
 #' @examples
 #'  data <- tibble::data_frame(
@@ -472,9 +572,20 @@ assess <- function(tracks, min_path_length = 19, strata) {
 #'  position <- migrationminer::mean_position(data,strata)
 #' @importFrom magrittr %>%
 #' @export
-mean_position <- function(tracks, strata) {
+mean_position <- function(tracks, strata,
+                          x_var = "Location_Center_X",
+                          y_var = "Location_Center_Y") {
+
+  x_var <- as.name(x_var)
+  y_var <- as.name(y_var)
+
   tracks %>% dplyr::summarise(
-        Track_Pos_X = mean(Location_Center_X),
-        Track_Pos_Y = mean(Location_Center_Y)
+        "Track_Pos_X" = mean(!!x_var),
+        "Track_Pos_Y" = mean(!!y_var)
     )
 }
+#'3D trajectory plot
+#'
+#' @param tracks data frame with track objects
+#' @param strata
+#' trajectory_plot3d() <- function()

@@ -4,12 +4,19 @@
 \alias{displace}
 \title{Add spatial displacement per frame for each track object}
 \usage{
-displace(population, strata)
+displace(population, strata, x_var = "Location_Center_X",
+  y_var = "Location_Center_Y", t_var = "Metadata_timePoint")
 }
 \arguments{
 \item{population, }{data frame storing single cell data}
 
 \item{strata, }{column name storing the track label}
+
+\item{x_var}{variable name / columne name used for x-coordinates}
+
+\item{y_var}{variable name / columne name used for y-coordinates}
+
+\item{t_var}{variable name / columne name used for time coordinates}
 }
 \value{
 displacement

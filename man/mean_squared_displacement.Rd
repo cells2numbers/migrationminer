@@ -2,7 +2,7 @@
 % Please edit documentation in R/track.R
 \name{mean_squared_displacement}
 \alias{mean_squared_displacement}
-\title{Calculate the mean squared displacement of a track object.}
+\title{Mean squared displacement of a track object.}
 \usage{
 mean_squared_displacement(tracks, tau = 10)
 }
@@ -15,7 +15,7 @@ mean_squared_displacement(tracks, tau = 10)
 mean_squared_displacement
 }
 \description{
-Calculate the mean squared displacement of a track object.
+Mean squared displacement of a track object.
 }
 \examples{
  data <- tibble::data_frame(

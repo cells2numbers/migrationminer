@@ -2,18 +2,23 @@
 % Please edit documentation in R/track.R
 \name{distance}
 \alias{distance}
-\title{Calculate distance traveled and the integrated distance traveled of a track object.}
+\title{Distance traveled and integrated distance traveled of a track object.}
 \usage{
-distance(tracks)
+distance(tracks, x_var = "Location_Center_X",
+  y_var = "Location_Center_Y")
 }
 \arguments{
 \item{tracks}{data frame with track objects}
+
+\item{x_var}{variable name / columne name used for x-coordinates}
+
+\item{y_var}{variable name / columne name used for y-coordinates}
 }
 \value{
 distance traveled
 }
 \description{
-Calculate distance traveled and the integrated distance traveled of a track object.
+Distance traveled and integrated distance traveled of a track object.
 }
 \examples{
  data <- tibble::data_frame(

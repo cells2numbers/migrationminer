@@ -2,18 +2,20 @@
 % Please edit documentation in R/track.R
 \name{lifetime}
 \alias{lifetime}
-\title{Calculate lifetime of a track object.}
+\title{Lifetime of a track object.}
 \usage{
-lifetime(tracks)
+lifetime(tracks, t_var = "Metadata_timePoint")
 }
 \arguments{
 \item{tracks}{data frame with track objects}
+
+\item{t_var}{variable name / columne name used for time coordinates}
 }
 \value{
 Calculate life time of each track object
 }
 \description{
-Calculate lifetime of a track object.
+Lifetime of a track object.
 }
 \examples{
  data <- tibble::data_frame(

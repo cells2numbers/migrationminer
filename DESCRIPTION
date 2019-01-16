@@ -21,6 +21,7 @@ Imports:
     magrittr (>= 1.5),
     purrr (>= 0.2.2),
     tibble (>= 1.2),
+    plotly (>= 4.7),
 Suggests:
     knitr (>= 1.14),
     readr (>= 1.0.0),
@@ -33,4 +34,4 @@ Suggests:
 VignetteBuilder: knitr
 URL: https://github.com/cells2numbers/migrationminer
 BugReports: https://github.com/cells2numbers/migrationminer/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1

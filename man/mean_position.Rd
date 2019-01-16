@@ -4,12 +4,17 @@
 \alias{mean_position}
 \title{Get mean position}
 \usage{
-mean_position(tracks, strata)
+mean_position(tracks, strata, x_var = "Location_Center_X",
+  y_var = "Location_Center_Y")
 }
 \arguments{
 \item{tracks}{data frame with track objects}
 
 \item{strata}{column name of track index column}
+
+\item{x_var}{variable name / columne name used for x-coordinates}
+
+\item{y_var}{variable name / columne name used for y-coordinates}
 }
 \value{
 data frame with mean x and y positions
