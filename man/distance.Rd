@@ -4,7 +4,8 @@
 \alias{distance}
 \title{Distance traveled and integrated distance traveled of a track object.}
 \usage{
-distance(tracks, x_var = "Location_Center_X", y_var = "Location_Center_Y")
+distance(tracks, x_var = "Location_Center_X",
+  y_var = "Location_Center_Y")
 }
 \arguments{
 \item{tracks}{data frame with track objects}

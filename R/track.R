@@ -51,7 +51,7 @@ track <- function(population, strata,
       tracks = tracks,
       x_var = x_var,
       y_var = y_var),
-    lifetime(tracks),
+    lifetime(tracks, t_var = t_var),
     mean_squared_displacement(tracks, tau = 2),
     sector_analysis(tracks),
     speed(tracks),
@@ -210,6 +210,7 @@ forward_migration_index <- function(tracks,
 #' Lifetime of a track object.
 #'
 #' @param tracks data frame with track objects
+#' @param t_var variable name / columne name used for time coordinates
 #' @return Calculate life time of each track object
 #' @examples
 #'  data <- tibble::data_frame(
@@ -223,14 +224,17 @@ forward_migration_index <- function(tracks,
 #'
 #' @importFrom magrittr %>%
 #' @export
-lifetime  <- function(tracks) {
+lifetime  <- function(tracks,  t_var = "Metadata_timePoint") {
+
+  t_var <- as.name(t_var)
+
   tracks %>%
     dplyr::summarize(
       Track_Length = n(),
       Track_Life_Time =
-        length(unique(Metadata_timePoint)),
+        length(unique(!!t_var)),
       Track_One_Cell =
-        length(unique(Metadata_timePoint)) == length(Metadata_timePoint) )
+        length(unique(!!t_var)) == length(!!t_var) )
 }
 
 #' Angle of a track object.
@@ -542,8 +546,10 @@ validate_tracks <- function(tracks, min_path_length = 19){
 #' @importFrom magrittr %>%
 #' @export
 assess <- function(tracks, min_path_length = 19, strata) {
-  track_info <- list(valid_observation_time(tracks, min_path_length),
-    validate_tracks(tracks, min_path_length))
+  track_info <- list(
+    migrationminer::valid_observation_time(tracks, min_path_length),
+    migrationminer::validate_tracks(tracks, min_path_length)
+    )
 
   return(Reduce(function(...) merge(..., all = TRUE, by_ = strata), track_info))
 }

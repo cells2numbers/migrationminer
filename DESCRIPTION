@@ -34,4 +34,4 @@ Suggests:
 VignetteBuilder: knitr
 URL: https://github.com/cells2numbers/migrationminer
 BugReports: https://github.com/cells2numbers/migrationminer/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1

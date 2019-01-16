@@ -4,10 +4,12 @@
 \alias{lifetime}
 \title{Lifetime of a track object.}
 \usage{
-lifetime(tracks)
+lifetime(tracks, t_var = "Metadata_timePoint")
 }
 \arguments{
 \item{tracks}{data frame with track objects}
+
+\item{t_var}{variable name / columne name used for time coordinates}
 }
 \value{
 Calculate life time of each track object
