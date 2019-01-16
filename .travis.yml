@@ -6,7 +6,6 @@ cache: packages
 
 r_binary_packages:
     - libgit2
-    - magick
 r_packages:
   - covr
 after_success:
