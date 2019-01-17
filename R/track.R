@@ -21,7 +21,7 @@ if (getRversion() >= "2.15.1")  utils::globalVariables(
 #' @return track
 #' @importFrom magrittr %>%
 #' @examples
-#'  data <- tibble::data_frame(
+#'  data <- tibble::tibble(
 #'    Metadata_timePoint = c(1:5),
 #'    Location_Center_X = c(1, 2, 3, 4, 5),
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
@@ -70,7 +70,7 @@ track <- function(population, strata,
 #' @param strata, column name storing the track label
 #' @return displacement
 #' @examples
-#'  data <- tibble::data_frame(
+#'  data <- tibble::tibble(
 #'    Metadata_timePoint = c(1:5),
 #'    Location_Center_X = c(1, 2, 3, 4, 5),
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
@@ -138,7 +138,7 @@ displace <- function(population, strata,
 #' @param tracks data frame with single cell data
 #' @return displacement
 #' @examples
-#'  data <- tibble::data_frame(
+#'  data <- tibble::tibble(
 #'    Metadata_timePoint = c(1:5),
 #'    Location_Center_X = c(1, 2, 3, 4, 5),
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
@@ -167,7 +167,7 @@ speed <- function(tracks) {
 #' @param y_var variable name / columne name used for y-coordinates
 #' @return forward migration index
 #' @examples
-#'  data <- tibble::data_frame(
+#'  data <- tibble::tibble(
 #'    Metadata_timePoint = c(1:5),
 #'    Location_Center_X = c(1, 2, 3, 4, 5),
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
@@ -213,7 +213,7 @@ forward_migration_index <- function(tracks,
 #' @param t_var variable name / columne name used for time coordinates
 #' @return Calculate life time of each track object
 #' @examples
-#'  data <- tibble::data_frame(
+#'  data <- tibble::tibble(
 #'    Metadata_timePoint = c(1:5),
 #'    Location_Center_X = c(1, 2, 3, 4, 5),
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
@@ -244,7 +244,7 @@ lifetime  <- function(tracks,  t_var = "Metadata_timePoint") {
 #' @param y_var variable name / columne name used for y-coordinates
 #' @return The angle of each track
 #' @examples
-#'  data <- tibble::data_frame(
+#'  data <- tibble::tibble(
 #'    Metadata_timePoint = c(1:5),
 #'    Location_Center_X = c(1, 2, 3, 4, 5),
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
@@ -279,7 +279,7 @@ angle <- function(tracks,
 #' @param y_var variable name / columne name used for y-coordinates
 #' @return distance traveled
 #' @examples
-#'  data <- tibble::data_frame(
+#'  data <- tibble::tibble(
 #'    Metadata_timePoint = c(1:5),
 #'    Location_Center_X = c(1, 2, 3, 4, 5),
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
@@ -314,7 +314,7 @@ distance <- function(tracks,
 #' @param y_var variable name / columne name used for y-coordinates
 #' @return directionality
 #' @examples
-#'  data <- tibble::data_frame(
+#'  data <- tibble::tibble(
 #'    Metadata_timePoint = c(1:5),
 #'    Location_Center_X = c(1, 2, 3, 4, 5),
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
@@ -345,7 +345,7 @@ directionality <- function(tracks,
 #' @param tau delta t
 #' @return mean_squared_displacement
 #' @examples
-#'  data <- tibble::data_frame(
+#'  data <- tibble::tibble(
 #'    Metadata_timePoint = c(1:5),
 #'    Location_Center_X = c(1, 2, 3, 4, 5),
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
@@ -369,7 +369,7 @@ mean_squared_displacement <- function(tracks, tau = 10) {
 #' @param tracks data frame with track objects
 #' @return directional persistence
 #' @examples
-#'  data <- tibble::data_frame(
+#'  data <- tibble::tibble(
 #'    Metadata_timePoint = c(1:5),
 #'    Location_Center_X = c(1, 2, 3, 4, 5),
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
@@ -394,7 +394,7 @@ directional_persistence <- function(tracks) {
 #' @param y_var variable name / columne name used for y-coordinates
 #' @return chemotaxis_index
 #' @examples
-#' data <- tibble::data_frame(
+#' data <- tibble::tibble(
 #'   Metadata_timePoint = c(1:5),
 #'   Location_Center_X = c(1, 2, 3, 4, 5),
 #'   Location_Center_Y = c(1, 1, 1, 1, 1),
@@ -425,7 +425,7 @@ chemotaxis_index <- function(tracks,
 #' @param y_var variable name / columne name used for y-coordinates
 #' @return sector
 #' @examples
-#'  data <- tibble::data_frame(
+#'  data <- tibble::tibble(
 #'    Metadata_timePoint = c(1:5),
 #'    Location_Center_X = c(1, 2, 3, 4, 5),
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
@@ -472,7 +472,7 @@ sector_analysis <- function(tracks,
 #' @param min_path_length minimum length of a valid track
 #' @return valid_observation_time
 #' @examples
-#'  data <- tibble::data_frame(
+#'  data <- tibble::tibble(
 #'    Metadata_timePoint = c(1:5),
 #'    Location_Center_X = c(1, 2, 3, 4, 5),
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
@@ -501,7 +501,7 @@ valid_observation_time <- function(tracks, min_path_length = 19) {
 #' @param min_path_length minimum length of a valid track
 #' @return valid_observation_time
 #' @examples
-#'  data <- tibble::data_frame(
+#'  data <- tibble::tibble(
 #'    Metadata_timePoint = c(1:5),
 #'    Location_Center_X = c(1, 2, 3, 4, 5),
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
@@ -532,7 +532,7 @@ validate_tracks <- function(tracks, min_path_length = 19){
 #' @param strata column name of track index column
 #' @return valid_observation_time
 #' @examples
-#'  data <- tibble::data_frame(
+#'  data <- tibble::tibble(
 #'    Metadata_timePoint = c(1:5),
 #'    Location_Center_X = c(1, 2, 3, 4, 5),
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),
@@ -561,7 +561,7 @@ assess <- function(tracks, min_path_length = 19, strata) {
 #' @param y_var variable name / columne name used for y-coordinates
 #' @return data frame with mean x and y positions
 #' @examples
-#'  data <- tibble::data_frame(
+#'  data <- tibble::tibble(
 #'    Metadata_timePoint = c(1:5),
 #'    Location_Center_X = c(1, 2, 3, 4, 5),
 #'    Location_Center_Y = c(1, 1, 1, 1, 1),

@@ -18,7 +18,7 @@ mean_squared_displacement
 Mean squared displacement of a track object.
 }
 \examples{
- data <- tibble::data_frame(
+ data <- tibble::tibble(
    Metadata_timePoint = c(1:5),
    Location_Center_X = c(1, 2, 3, 4, 5),
    Location_Center_Y = c(1, 1, 1, 1, 1),
