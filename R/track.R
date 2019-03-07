@@ -150,12 +150,12 @@ displace <- function(population, strata,
 #' @export
 speed <- function(tracks) {
   tracks %>%
-    dplyr::summarize(Track_Length = n(),
+    dplyr::summarize(Track_Length = dplyr::n(),
       Track_Speed = sum(TrackObjects_Distance_Traveled, na.rm = TRUE) /
-        (n() - 1),
+        (dplyr::n() - 1),
       Track_Speed_max = max(TrackObjects_Distance_Traveled, na.rm = TRUE),
-      Track_Speed_X = sum(Track_dX, na.rm = TRUE) / (n() - 1),
-      Track_Speed_Y = sum(Track_dY, na.rm = TRUE) / (n() - 1)) %>%
+      Track_Speed_X = sum(Track_dX, na.rm = TRUE) / (dplyr::n() - 1),
+      Track_Speed_Y = sum(Track_dY, na.rm = TRUE) / (dplyr::n() - 1)) %>%
     dplyr::select(-Track_Length)
 }
 
@@ -230,7 +230,7 @@ lifetime  <- function(tracks,  t_var = "Metadata_timePoint") {
 
   tracks %>%
     dplyr::summarize(
-      Track_Length = n(),
+      Track_Length = dplyr::n(),
       Track_Life_Time =
         length(unique(!!t_var)),
       Track_One_Cell =
@@ -517,9 +517,9 @@ validate_tracks <- function(tracks, min_path_length = 19){
   tracks %>%
     dplyr::mutate(Track_Valid = as.numeric(Track_Length > min_path_length)) %>%
     dplyr::summarize(
-      "Exp_Tracks" = n(),
+      "Exp_Tracks" = dplyr::n(),
       "Exp_Valid_Tracks" = sum(Track_Valid),
-      "Exp_Valid_Track_Fraction" = sum(Track_Valid) / n(),
+      "Exp_Valid_Track_Fraction" = sum(Track_Valid) / dplyr::n(),
       "Exp_Mean_Track_Length" = mean(Track_Length),
       "Exp_Mean_Track_Life_Time" = mean(Track_Life_Time)
       )
