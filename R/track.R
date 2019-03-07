@@ -41,6 +41,8 @@ track <- function(population, strata,
     x_var = x_var,
     y_var = y_var)
 
+  tracks %<>% dplyr::group_by_(.dots = strata)
+
   features <- list(
     angle(tracks, x_var = x_var, y_var = y_var),
     chemotaxis_index(tracks),
