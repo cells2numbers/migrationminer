@@ -13,23 +13,23 @@ Description: Trajectory data of in vitro cell tracking experiments is difficult
 License: file LICENSE
 LazyData: TRUE
 Depends:
-  R (> 3.1.0) 
+  R (>=3.1.0) 
 Imports:
-    dplyr (> 0.5.0),
-    foreach (> 1.4.3),
-    lazyeval (> 0.2.0),
-    magrittr (> 1.4),
-    purrr (> 0.2.2),
-    tibble (> 1.2),
-    plotly (> 4.7),
+    dplyr (>=0.5.0),
+    foreach (>=1.4.3),
+    lazyeval (>=0.2.0),
+    magrittr (>=1.4),
+    purrr (>=0.2.2),
+    tibble (>=1.2),
+    plotly (>=4.7),
 Suggests:
-    knitr (> 1.14),
-    readr (> 1.0.0),
-    stringr (> 1.1.0),
-    rmarkdown (> 1.0),
-    RSQLite (> 1.0.0),
-    testthat (> 1.0.2),
-    tidyr (> 0.6.0),
+    knitr,
+    readr,
+    stringr,
+    rmarkdown,
+    RSQLite,
+    testthat,
+    tidyr,
     covr
 VignetteBuilder: knitr
 URL: https://github.com/cells2numbers/migrationminer
