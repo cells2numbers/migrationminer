@@ -9,7 +9,8 @@ if (getRversion() >= "2.15.1")  utils::globalVariables(
     "Track_Neutral_Sector_Up", "Track_Positive_Sector",  "Track_Valid",
     "Track_dX", "Track_dY", "sum_track", "sum_track_valid",
     "Track_Sector", "n_per_sector", "sector_down", "sector_left", "sector_right",
-    "sector_up", "helper_order", ".")
+    "sector_up", "helper_order", ".", "Track_Integrated_Distance_Traveled",
+    "Track_Length", "Track_Life_Time", "Track_Speed", "spd.binned")
   )
 
 #' Compute track statistics
