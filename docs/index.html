@@ -75,6 +75,7 @@
     
     
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- use knitr::knit(input="README.Rmd", output = "README.md") to generate README.md -->
 
 <div id="migrationminer" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
@@ -92,17 +93,11 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>migrationminer is not yet available from CRAN but you can install directly from github. First, you need to install the devtools package. You can do this from CRAN. Invoke R and then type</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; Installing package into '/usr/local/lib/R/3.5/site-library'</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; (as 'lib' is unspecified)</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Warning in install.packages("devtools"): installation of package 'devtools'</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; had non-zero exit status</span></a></code></pre></div>
+<pre><code><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages("devtools")</a></code></pre>
 <p>Load the package using</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(devtools)</a></code></pre></div>
+<pre><code><a href="https://www.rdocumentation.org/packages/base/topics/library">library(devtools)</a></code></pre>
 <p>Now install migrationminer from github using</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"cells2numbers/migrationminer"</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Skipping install of 'migrationminer' from a github remote, the SHA1 (68f7e6af) has not changed since last install.</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;   Use `force = TRUE` to force installation</span></a></code></pre></div>
+<pre><code>install_github("cells2numbers/migrationminer")</code></pre>
 <p>You should see something like</p>
 <pre><code>Downloading GitHub repo cells2numbers/migrationminer@master
 from URL https://api.github.com/repos/cells2numbers/migrationminer/zipball/master
