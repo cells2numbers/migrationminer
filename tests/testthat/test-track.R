@@ -24,7 +24,7 @@ test_that("`track` collapse single cell data to track objects", {
     )
 
   f2 <- migrationminer::track(data2,
-    c("TrackObjects_Label", "Metadata_condition")
+    strata = c("TrackObjects_Label", "Metadata_condition")
     )
 
   # define results for test data

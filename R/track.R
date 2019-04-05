@@ -5,10 +5,11 @@ if (getRversion() >= "2.15.1")  utils::globalVariables(
   c(":=", "n", "Location_Center_X", "Location_Center_Y", "Metadata_timePoint",
     "TrackObjects_Distance_Traveled", "Track_Angle", "Track_Directionality",
     "Track_Displacement_X", "Track_Displacement_Y", "Track_Distance_Traveled",
-    "Track_Integrated_Distance_Traveled", "Track_Length", "Track_Life_Time",
     "Track_Negative_Sector", "Track_Neutral_Sector_Down",
     "Track_Neutral_Sector_Up", "Track_Positive_Sector",  "Track_Valid",
-    "Track_dX", "Track_dY", "sum_track", "sum_track_valid", "helper_order", ".")
+    "Track_dX", "Track_dY", "sum_track", "sum_track_valid",
+    "Track_Sector", "n_per_sector", "sector_down", "sector_left", "sector_right",
+    "sector_up", "helper_order", ".")
   )
 
 #' Compute track statistics
@@ -586,6 +587,56 @@ mean_position <- function(tracks, strata,
         "Track_Pos_Y" = mean(!!y_var)
     )
 }
+
+
+#'Summarize sector analysis per experiment
+#' @param tracks data frame with track objects
+#' @param strata column name of track index column
+#' @return sector_summary
+#' @examples
+#'  data <- tibble::tibble(
+#'    Metadata_timePoint = c(rep(0, 5),rep(1,5)),
+#'    Location_Center_X = c(0, 0, 0, 0, 0, -1,  1,  0,  0, 0),
+#'    Location_Center_Y = c(0, 0, 0, 0, 0,  0,  0,  1, -1, 1),
+#'    TrackObjects_Label = c(1:5,1:4,1),
+#'    Metadata_experiment = c(rep(0,10))
+#'  )
+#'
+#'  strata <- c('TrackObjects_Label','Metadata_experiment')
+#'  tracks <- track(data, strata = strata)
+#'  sector <- summarize_sectors(tracks,'Metadata_experiment')
+#' @importFrom magrittr %>%
+#' @export
+summarize_sectors <- function(tracks, strata) {
+  results <- tracks %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by_(.dots = c(strata,'Track_Sector')) %>%
+    dplyr::count() %>%
+    dplyr::rename(n_per_sector  = n ) %>%
+    tidyr::spread(key = Track_Sector, value = n_per_sector)
+
+  # replace na with 0
+  results[is.na(results)] <- 0
+
+  # add missing cols
+  missing_cols <- setdiff(c("1","2","3","4"),setdiff(colnames(results),strata))
+  results[missing_cols] <- 0
+
+  sector_summary <- results %>%
+    dplyr::rename('sector_left' = '1') %>%
+    dplyr::rename('sector_right' = '2') %>%
+    dplyr::rename('sector_up' = '3') %>%
+    dplyr::rename('sector_down' = '4') %>%
+    dplyr::mutate(sector_left_fraction =
+        sector_left  / (sector_left + sector_right + sector_up + sector_down)) %>%
+    dplyr::mutate(sector_right_fraction =
+        sector_right / (sector_left + sector_right + sector_up + sector_down)) %>%
+    dplyr::mutate(sector_up_fraction =
+        sector_up    / (sector_left + sector_right + sector_up + sector_down)) %>%
+    dplyr::mutate(sector_down_fraction =
+        sector_down  / (sector_left + sector_right + sector_up + sector_down))
+}
+
 #'3D trajectory plot
 #'
 #' @param tracks data frame with track objects
