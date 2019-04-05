@@ -696,7 +696,7 @@ plot_windrose <- function(tracks,
   n.colors.in.range <- n.spd.seq - 1
 
   # create the color map
-  spd.colors <- colorRampPalette(RColorBrewer::brewer.pal(min(max(3,
+  spd.colors <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(min(max(3,
     n.colors.in.range),
     min(9,
       n.colors.in.range)),
@@ -723,7 +723,7 @@ plot_windrose <- function(tracks,
     labels = spd.labels,
     ordered_result = TRUE)
   # clean up the data
-  data. <- na.omit(data)
+  data. <- stats::na.omit(data)
 
   # figure out the wind direction bins
   dir.breaks <- c(-dirres/2,
@@ -745,7 +745,7 @@ plot_windrose <- function(tracks,
 
 
   # deal with change in ordering introduced somewhere around version 2.2
-  if (packageVersion("ggplot2") > "2.2") {
+  if (utils::packageVersion("ggplot2") > "2.2") {
     #cat("Hadley broke my code\n")
     data$spd.binned = with(data, factor(spd.binned, levels = rev(levels(spd.binned))))
     spd.colors = rev(spd.colors)
