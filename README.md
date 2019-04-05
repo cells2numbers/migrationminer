@@ -5,13 +5,7 @@ output: github_document
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- use knitr::knit(input="README.Rmd", output = "README.md") to generate README.md -->
 
-```{r, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/"
-)
-```
+
 
 
 [![Build Status](https://travis-ci.org/cells2numbers/migrationminer.svg?branch=master)](https://travis-ci.org/cells2numbers/migrationminer) 
