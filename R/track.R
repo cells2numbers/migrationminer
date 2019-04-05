@@ -641,7 +641,7 @@ summarize_sectors <- function(tracks, strata) {
 #'Windrose style plot
 #'
 #' @param tracks data frame with track objects
-#' @param spedres speed resolution used for coloring
+#' @param spdres speed resolution used for coloring
 #' @param dirres angle resolution of the plot
 #' @param spdmin minimum speed (used for color mapping of speed)
 #' @param spdmax max speed (used for color mapping of speed )
@@ -649,7 +649,12 @@ summarize_sectors <- function(tracks, strata) {
 #' @param title_name title name of the plot
 #' @param scale_name legend name / title for the scale
 #' @return windrose_plot
-#'
+#' @examples
+#'  df <- dplyr::tibble(
+#'    Track_Speed = runif(1000, max = 5),
+#'    Track_Angle =  runif(1000, min = -pi, max = pi)
+#'  )
+#'  plot_windrose(df)
 #' @importFrom magrittr %>% %<>%
 #' @export
 plot_windrose <- function(tracks,
@@ -662,10 +667,10 @@ plot_windrose <- function(tracks,
   title_name = "Distribution of angle and speed"){
 
   tracks %<>%
-    mutate(Track_Angle = Track_Angle + pi/2) %>% # rotate all angles by 90 degree or pi/2
-    mutate(Track_Angle = ifelse(Track_Angle > pi, Track_Angle - 2*pi, Track_Angle) ) %>%
-    mutate(Track_Angle = ifelse(Track_Angle < 0, Track_Angle + 2*pi, Track_Angle) ) %>%
-    filter(!is.na(Track_Speed), !is.na(Track_Directionality))
+    dplyr::mutate(Track_Angle = Track_Angle + pi/2) %>% # rotate all angles by 90 degree or pi/2
+    dplyr::mutate(Track_Angle = ifelse(Track_Angle > pi, Track_Angle - 2*pi, Track_Angle) ) %>%
+    dplyr::mutate(Track_Angle = ifelse(Track_Angle < 0 , Track_Angle + 2*pi, Track_Angle) ) %>%
+    dplyr::filter(!is.na(Track_Speed), !is.na(Track_Angle))
 
 
   data <- data.frame(
@@ -748,16 +753,16 @@ plot_windrose <- function(tracks,
 
   # create the plot ----
   windrose_plot <- ggplot2::ggplot(data = data,
-    aes(x = dir.binned,
+    ggplot2::aes(x = dir.binned,
       fill = spd.binned)) +
     ggplot2::geom_bar() +
     ggplot2::scale_x_discrete(drop = FALSE,
-      labels = waiver()) +
+      labels = ggplot2::waiver()) +
     ggplot2::coord_polar(start = -((dirres/2)/360) * 2*pi) +
     ggplot2::scale_fill_manual(name = scale_name,
       values = spd.colors,
       drop = FALSE) +
-    ggplot2::theme(axis.title.x = element_blank()) +
+    ggplot2::theme(axis.title.x = ggplot2::element_blank()) +
     ggplot2::labs(title = title_name)
 
   # return the handle to the wind rose

@@ -8,8 +8,7 @@ Description: Trajectory data of in vitro cell tracking experiments is difficult
     aggregate these data sets, migrationminer implements different methods to 
     characterize single (cellular) trajectories including speed, directionality, 
     forward migration index or the chemotaxis index. Different methods are 
-    provided to assess the tracking quality including 2D / 3D visualizations and 
-    automated. 
+    provided to assess the tracking quality including 2D / 3D visualizations. 
 License: file LICENSE
 LazyData: TRUE
 Depends:
@@ -20,8 +19,7 @@ Imports:
     lazyeval (>= 0.2.0),
     magrittr (>= 1.4),
     purrr (>= 0.2.2),
-    tibble (>= 1.2),
-    plotly (>= 4.7),
+    tibble (>= 1.2)
 Suggests:
     knitr,
     readr,

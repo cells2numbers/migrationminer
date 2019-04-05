@@ -12,6 +12,8 @@ plot_windrose(tracks, spdres = 1, dirres = 30, spdmin = 0,
 \arguments{
 \item{tracks}{data frame with track objects}
 
+\item{spdres}{speed resolution used for coloring}
+
 \item{dirres}{angle resolution of the plot}
 
 \item{spdmin}{minimum speed (used for color mapping of speed)}
@@ -23,12 +25,17 @@ plot_windrose(tracks, spdres = 1, dirres = 30, spdmin = 0,
 \item{scale_name}{legend name / title for the scale}
 
 \item{title_name}{title name of the plot}
-
-\item{spedres}{speed resolution used for coloring}
 }
 \value{
 windrose_plot
 }
 \description{
 Windrose style plot
+}
+\examples{
+ df <- dplyr::tibble(
+   Track_Speed = runif(1000, max = 5),
+   Track_Angle =  runif(1000, min = -pi, max = pi)
+ )
+ plot_windrose(df)
 }
