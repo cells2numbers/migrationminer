@@ -19,7 +19,9 @@ Imports:
     lazyeval (>= 0.2.0),
     magrittr (>= 1.4),
     purrr (>= 0.2.2),
-    tibble (>= 1.2)
+    tibble (>= 1.2),
+    RColorBrewer (>= 1.1),
+    ggplot2 (>= 3.0)
 Suggests:
     knitr,
     readr,
