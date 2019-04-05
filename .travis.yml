@@ -5,8 +5,8 @@ sudo: true
 warnings_are_errors: false
 cache: packages
 
-r_binary_packages:
-  - libgit2
+#r_binary_packages:
+#  - libgit2
 
 r_packages:
   - covr
