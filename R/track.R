@@ -691,7 +691,7 @@ plot_windrose <- function(tracks,
   n.colors.in.range <- n.spd.seq - 1
 
   # create the color map
-  spd.colors <- colorRampPalette(brewer.pal(min(max(3,
+  spd.colors <- colorRampPalette(RColorBrewer::brewer.pal(min(max(3,
     n.colors.in.range),
     min(9,
       n.colors.in.range)),
@@ -747,18 +747,18 @@ plot_windrose <- function(tracks,
   }
 
   # create the plot ----
-  windrose_plot <- ggplot(data = data,
+  windrose_plot <- ggplot2::ggplot(data = data,
     aes(x = dir.binned,
       fill = spd.binned)) +
-    geom_bar() +
-    scale_x_discrete(drop = FALSE,
+    ggplot2::geom_bar() +
+    ggplot2::scale_x_discrete(drop = FALSE,
       labels = waiver()) +
-    coord_polar(start = -((dirres/2)/360) * 2*pi) +
-    scale_fill_manual(name = scale_name,
+    ggplot2::coord_polar(start = -((dirres/2)/360) * 2*pi) +
+    ggplot2::scale_fill_manual(name = scale_name,
       values = spd.colors,
       drop = FALSE) +
-    theme(axis.title.x = element_blank()) +
-    labs(title = title_name)
+    ggplot2::theme(axis.title.x = element_blank()) +
+    ggplot2::labs(title = title_name)
 
   # return the handle to the wind rose
   return(windrose_plot)
