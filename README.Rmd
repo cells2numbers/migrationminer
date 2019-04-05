@@ -1,7 +1,3 @@
----
-output: github_document
----
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- use knitr::knit(input="README.Rmd", output = "README.md") to generate README.md -->
 
