@@ -667,7 +667,10 @@ plot_windrose <- function(tracks,
   scale_name = "speed in pixel/frame",
   title_name = "Distribution of angle and speed"){
 
+  # Tack_Angle is calculated as atan2 with values between -pi and pi and angle = 0 in x-direction (1,0)
+  # First, the angle is transformed to degrees scaling from 0 to 360
   tracks %<>%
+    dplyr::mutate(Track_Angle = -Track_Angle) %>%
     dplyr::mutate(Track_Angle = Track_Angle + pi/2) %>% # rotate all angles by 90 degree or pi/2
     dplyr::mutate(Track_Angle = ifelse(Track_Angle > pi, Track_Angle - 2*pi, Track_Angle) ) %>%
     dplyr::mutate(Track_Angle = ifelse(Track_Angle < 0 , Track_Angle + 2*pi, Track_Angle) ) %>%
